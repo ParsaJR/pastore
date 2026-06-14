@@ -71,7 +71,11 @@ async function save() {
 	    const is_one_time = formState.is_one_time
 
 		try {
-			const result = await useAPI().postPasted(code, duration,is_one_time)
+		    const result = await useAPI().postPasted({
+			content: code,
+			expiry_code: duration,
+			is_one_time: is_one_time
+		    })
 			appState.toggleViewMode()
 
 			router.push(result)

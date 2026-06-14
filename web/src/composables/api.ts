@@ -1,4 +1,4 @@
-import type { ApiCapabilities, ApiError, ApiResponse } from "@/types/ApiTypes"
+import type { ApiCapabilities, ApiError, ApiResponse, PostPastedPayload } from "@/types/ApiTypes"
 
 export function useAPI() {
   async function getApiCapabilities(): Promise<ApiCapabilities> {
@@ -30,17 +30,16 @@ export function useAPI() {
 
   }
 
-  async function postPasted(code: string, duration: string, is_one_time: boolean): Promise<string> {
+  async function postPasted(payload: PostPastedPayload): Promise<string> {
 
     const url = `/api/pastes`
 
-    const bodyJson = { "content": code, "expiry_code": duration, "is_one_time": is_one_time}
     try {
 
       const response = await fetch(url,
         {
           method: "POST",
-          body: JSON.stringify(bodyJson),
+          body: JSON.stringify(payload),
           headers: {
             "Content-type": "application/json"
           }
