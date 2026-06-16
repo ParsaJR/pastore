@@ -82,7 +82,10 @@ class PastedService:
 
         day_amount = self.db.exec(day_amount_statement).first()
         if not day_amount:
-            raise ServiceError("Internal server error")
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unsupported expiry code: {p.expiry_code}",
+            )
             
         
 
