@@ -37,7 +37,7 @@ class PastedPublic(PastedBase):
 
 class Pasted(PastedBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    shortcode: str = Field(max_length=8, index=True, unique=True)
+    shortcode: str = Field(max_length=8, unique=True)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     expires_at: datetime = Field(nullable=False)
     view_count: int = Field(default=0)
