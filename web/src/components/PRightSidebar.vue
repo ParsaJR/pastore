@@ -41,7 +41,7 @@ const selectOptions = computed(() =>
 <template>
     <div :class="appStore.isSideBarVisible ? 'mask' : ''" @click.self="appStore.toggleSidebar()">
         <aside :class="
-               appStore.isSideBarVisible ? 'translate-x-0' : 'translate-x-full sm:translate-x-0'"
+               appStore.isSideBarVisible ? 'translate-x-0' : 'max-sm:translate-x-full sm:translate-x-0'"
  	    class="fixed top-0 right-0 z-40 h-screen w-[75%] sm:w-[35%]
             bg-[#f8fafc] transition-transform duration-200" aria-label="Sidebar">
             <div class="h-full px-7 pt-12 pb-8 overflow-y-auto bg-[#f8fafc] flex flex-col items-center gap-3">
