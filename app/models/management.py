@@ -5,7 +5,9 @@ from typing import Self
 from pydantic import BaseModel, EmailStr, field_validator, model_validator
 from sqlmodel import Field, SQLModel
 
-
+###############
+# Admin Models #
+###############
 class AdminBase(SQLModel):
     username: str = Field(unique=True)
     email: EmailStr = Field(max_length=50)
@@ -55,3 +57,25 @@ class AdminPasswordChange(BaseModel):
         if self.new_password != self.repeat_new_password:
             raise ValueError("Passwords do not match")
         return self
+
+
+
+
+
+###################
+# Branding models #
+###################
+
+# Branding table contains a single row that has a metadata for the website e.g., The app_name, support/owner's mail, privacy_policy
+class BrandingBase(SQLModel):
+    app_name: str
+    support_email: EmailStr
+    privacy_policy: str
+
+
+class Branding(BrandingBase, table=True):
+    __tablename__ = "branding"  # pyright: ignore[reportAssignmentType]
+
+    id: int | None = Field(default=None,primary_key=True)
+
+    
