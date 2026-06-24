@@ -16,7 +16,6 @@ router = APIRouter(
 @router.get("/what-is-available", response_model=APICapabilities, status_code=200)
 def api_capabilities(admin_service: AdminServiceDep, response: Response):
     response.headers["Cache-Control"] = "public, max-age=30"
-    print("ASsadsa")
     return admin_service.get_api_capabilities()
 
 @router.get("/branding", response_model=BrandingBase, status_code=200)
