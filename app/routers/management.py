@@ -1,5 +1,5 @@
 from app.dependencies.admin import ProtectedRouteDep
-from app.models.management import AdminPasswordChange
+from app.models.management import AdminPasswordChange, BrandingBase
 from app.routers.auth import AdminServiceDep
 from fastapi import APIRouter, HTTPException, Response
 from app.core import security
@@ -19,6 +19,11 @@ def api_capabilities(admin_service: AdminServiceDep, response: Response):
     print("ASsadsa")
     return admin_service.get_api_capabilities()
 
+@router.get("/branding", response_model=BrandingBase, status_code=200)
+def branding(admin_service: AdminServiceDep):
+    branding = admin_service.get_branding()
+
+    return branding
 
 @router.delete("/pastes/{pasted_id}", status_code=204)
 async def DeletePasted(
