@@ -17,6 +17,12 @@ export type ApiCapabilities = {
   }[]
 }
 
+export type APIBranding = {
+  app_name: string,
+  support_email: string,
+  privacy_policy: string,
+}
+
 export type PostPastedPayload = {
   content: string,
   expiry_code: string,

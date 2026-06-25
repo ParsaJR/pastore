@@ -12,10 +12,15 @@ import { useToast } from './composables/toast';
 const appState = useAppStore()
 const formState = useFormStore()
 
+
 onBeforeMount(async () => {
 	try {
 		const capabilities = await useAPI().getApiCapabilities()
 		appState.populateApiCapabilities(capabilities)
+
+	    	const branding = await useAPI().getBranding()
+	    	appState.populateBranding(branding)
+	    	document.title = appState.serviceName
 	}
 	catch (error) {
 		console.log(error)

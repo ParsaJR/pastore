@@ -48,8 +48,8 @@ const selectOptions = computed(() =>
                 <div
                     class="flex flex-col items-center justify-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group">
                     <img src="../assets/logo.svg" width="120" height="120">
-                    <h1 class="text-xl lg:text-[1.8vw] font-bold">Javan's Pastebin</h1>
-                    <p class="text-xs lg:text-[0.9vw] font-medium">A Public, Generic pastebin service</p>
+                    <h1 class="text-xl lg:text-[1.8vw] font-bold">{{appStore.serviceName}}</h1>
+                    <p class="text-xs lg:text-[0.9vw] font-medium">{{appStore.serviceDescription}}</p>
                 </div>
                 <div class="flex flex-col w-full">
                     <div v-if="!appStore.isViewMode" class="flex flex-col gap-4">
@@ -96,7 +96,7 @@ const selectOptions = computed(() =>
                     <a href="https://github.com/ParsaJR/pasted" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
                         <Github />
                     </a>
-                    <a href="mailto:hi@parsajr.ir" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
+                    <a :href="`mailto:${appStore.serviceSupportEmail}`" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
                         <Envelope />
                     </a>
                 </div>

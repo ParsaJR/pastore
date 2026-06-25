@@ -1,9 +1,10 @@
-import type { ApiCapabilities } from '@/types/ApiTypes'
+import type { APIBranding, ApiCapabilities } from '@/types/ApiTypes'
 import { defineStore } from 'pinia'
 
 interface IAppState {
   serviceName: string,
   serviceDescription: string,
+  serviceSupportEmail: string,
   isViewMode: boolean,
   isSideBarVisible: boolean,
   apiCapabilities: ApiCapabilities
@@ -16,6 +17,7 @@ export const useAppStore = defineStore('app', {
   state: (): IAppState => ({
     serviceName: "Javan's Pastebin",
     serviceDescription: "A Public, generic pastebin service",
+    serviceSupportEmail: "hi@example.com",
     isViewMode: false,
     isSideBarVisible: false,
     apiCapabilities: {
@@ -35,6 +37,9 @@ export const useAppStore = defineStore('app', {
     },
     populateApiCapabilities(caps: ApiCapabilities) {
       this.apiCapabilities = caps;
+    },
+    populateBranding(branding: APIBranding) {
+      this.serviceName = branding.app_name
     },
     toggleModal() {
       this.modal.isVisible = !this.modal.isVisible

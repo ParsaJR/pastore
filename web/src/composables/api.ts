@@ -1,8 +1,9 @@
-import type { ApiCapabilities, ApiError, ApiResponse, PostPastedPayload } from "@/types/ApiTypes"
+import type { APIBranding, ApiCapabilities, ApiError, ApiResponse, PostPastedPayload } from "@/types/ApiTypes"
 
 export function useAPI() {
   async function getApiCapabilities(): Promise<ApiCapabilities> {
     const url = "/api/management/what-is-available"
+    
 
     try {
       const response = await fetch(url, {
@@ -29,6 +30,38 @@ export function useAPI() {
     }
 
   }
+
+
+  async function getBranding(): Promise<APIBranding> {
+    const url = "/api/management/branding"
+    
+
+    try {
+      const response = await fetch(url, {
+        method: "GET"
+      })
+
+      if (!response.ok) {
+        const res = await response.json() as ApiError
+        res.statusText = `${response.status} | ${response.statusText}`
+        throw res
+      }
+
+      const res = await response.json() as APIBranding
+      return res
+    }
+
+    catch (error) {
+      if (isApiError(error)) {
+        throw error
+      }
+      const internalError: ApiError = { detail: "Internal Error", statusText: "Internal Error" }
+
+      throw internalError
+    }
+
+  }
+
 
   async function postPasted(payload: PostPastedPayload): Promise<string> {
 
@@ -100,5 +133,5 @@ export function useAPI() {
     return (error as ApiError).detail !== undefined
   }
 
-  return { postPasted, getPasted, getApiCapabilities }
+  return { postPasted, getPasted, getApiCapabilities, getBranding }
 }
