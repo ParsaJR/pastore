@@ -39,7 +39,7 @@ def upgrade() -> None:
             sa.column("privacy_policy", sa.String),
         ),
         [
-            {"app_name": "PasteBin",
+            {"app_name": "Pastore",
              "app_description": "A Public, generic pastebin service",
              "support_email": "hi@example.org",
              "privacy_policy": """
