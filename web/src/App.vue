@@ -9,6 +9,7 @@ import { useAppStore } from './stores/appStore'
 import { useFormStore } from './stores/formStore';
 import { useToast } from './composables/toast';
 
+const ready = ref(false)
 const appState = useAppStore()
 const formState = useFormStore()
 
@@ -24,6 +25,9 @@ onBeforeMount(async () => {
 	catch (error) {
 		console.log(error)
 	}
+     finally {
+	 	ready.value = true
+     }
 })
 
 const selectedDuration = ref()
@@ -103,7 +107,7 @@ async function save() {
 
 <template>
 	<PHeader />
-	<div class="px-5 py-3 flex-1 flex">
+	<div class="px-5 py-3 flex-1 flex" v-if="ready">
 		<Suspense>
 			<RouterView name="default" class="w-full sm:w-[65%]" v-model:code="formState.code"></RouterView>
 			<template #fallback>
