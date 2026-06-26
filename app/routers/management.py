@@ -19,7 +19,8 @@ def api_capabilities(admin_service: AdminServiceDep, response: Response):
     return admin_service.get_api_capabilities()
 
 @router.get("/branding", response_model=BrandingBase, status_code=200)
-def branding(admin_service: AdminServiceDep):
+def branding(admin_service: AdminServiceDep, response: Response):
+    response.headers["Cache-Control"] = "public, max-age=30"
     branding = admin_service.get_branding()
 
     return branding
