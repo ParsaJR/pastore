@@ -16,7 +16,7 @@ interface IAppState {
 export const useAppStore = defineStore('app', {
   state: (): IAppState => ({
     serviceName: "Javan's Pastebin",
-    serviceDescription: "A Public, generic pastebin service",
+    serviceDescription: "A generic pastebin service",
     serviceSupportEmail: "hi@example.com",
     isViewMode: false,
     isSideBarVisible: false,
@@ -40,6 +40,7 @@ export const useAppStore = defineStore('app', {
     },
     populateBranding(branding: APIBranding) {
       this.serviceName = branding.app_name
+      this.serviceDescription = branding.app_description
     },
     toggleModal() {
       this.modal.isVisible = !this.modal.isVisible

@@ -20,7 +20,7 @@ export type ApiCapabilities = {
 export type APIBranding = {
   app_name: string,
   support_email: string,
-  privacy_policy: string,
+  app_description: string,
 }
 
 export type PostPastedPayload = {

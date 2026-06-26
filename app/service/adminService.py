@@ -42,7 +42,7 @@ class AdminService:
 
         result: APIBranding = APIBranding(
             app_name=branding.app_name,
-            privacy_policy=branding.privacy_policy,
+            app_description=branding.app_description,
             support_email=branding.support_email,
         )
 

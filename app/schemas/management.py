@@ -16,4 +16,4 @@ class APIBranding():
     """Used to inform the clients about the available options."""
     app_name: str
     support_email: str
-    privacy_policy: str
+    app_description: str
