@@ -4,7 +4,6 @@ import { codeToHtml } from 'shiki'
 import flourite from 'flourite'
 
 import { useAppStore } from '../stores/appStore'
-import { useFormStore } from '@/stores/formStore'
 import { userWelcomeText } from '@/statics/inventory'
 
 const appState = useAppStore()
@@ -21,15 +20,16 @@ const code = defineModel<string>('code')
      return language.language
  }
 
-watch(() => appState.isViewMode, async () => {
-	if (appState.isViewMode && code.value) {
-		const lang = DetectLanguage(code.value)
-		highlighted.value = await codeToHtml(code.value, {
-			lang: lang,
-			theme: 'github-light'
-		})
-	}
-})
+ watch(() => appState.isViewMode, async () => {
+     if (appState.isViewMode && code.value) {
+	 const lang = DetectLanguage(code.value)
+	 highlighted.value = await codeToHtml(code.value, {
+	     lang: lang,
+	     theme: 'github-light'
+	 })
+     }
+     // Execute the watcher's callback immediately once, on the first creation of the component.
+ }, {immediate: true})
 
 </script>
 

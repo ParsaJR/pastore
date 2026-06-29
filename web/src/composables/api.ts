@@ -1,137 +1,52 @@
-import type { APIBranding, ApiCapabilities, ApiError, ApiResponse, PostPastedPayload } from "@/types/ApiTypes"
+import { createApiClient } from "@/apiClient/client"
+import type { APIBranding, APICapabilities, APIPastedResponse, PostPastedPayload } from "@/types/ApiTypes"
+
 
 export function useAPI() {
-  async function getApiCapabilities(): Promise<ApiCapabilities> {
-    const url = "/api/management/what-is-available"
+  const api_client = createApiClient({baseUrl: "/api"})
+
+  function getApiCapabilities(): Promise<APICapabilities> {
+    const url = "/management/what-is-available"
     
 
-    try {
-      const response = await fetch(url, {
-        method: "GET"
-      })
+    const response = api_client.get<APICapabilities>(url)
 
-      if (!response.ok) {
-        const res = await response.json() as ApiError
-        res.statusText = `${response.status} | ${response.statusText}`
-        throw res
-      }
-
-      const res = await response.json() as ApiCapabilities
-      return res
-    }
-
-    catch (error) {
-      if (isApiError(error)) {
-        throw error
-      }
-      const internalError: ApiError = { detail: "Internal Error", statusText: "Internal Error" }
-
-      throw internalError
-    }
+    return response
 
   }
 
 
-  async function getBranding(): Promise<APIBranding> {
-    const url = "/api/management/branding"
+  function getBranding(): Promise<APIBranding> {
+    const url = "/management/branding"
     
+    const response = api_client.get<APIBranding>(url)
 
-    try {
-      const response = await fetch(url, {
-        method: "GET"
-      })
-
-      if (!response.ok) {
-        const res = await response.json() as ApiError
-        res.statusText = `${response.status} | ${response.statusText}`
-        throw res
-      }
-
-      const res = await response.json() as APIBranding
-      return res
-    }
-
-    catch (error) {
-      if (isApiError(error)) {
-        throw error
-      }
-      const internalError: ApiError = { detail: "Internal Error", statusText: "Internal Error" }
-
-      throw internalError
-    }
+    return response
 
   }
 
 
-  async function postPasted(payload: PostPastedPayload): Promise<string> {
+  async function postPasted(payload: PostPastedPayload): Promise<APIPastedResponse> {
 
-    const url = `/api/pastes`
+    const url = `/pastes`
 
-    try {
+    const response = api_client.post<APIPastedResponse>(url,payload)
 
-      const response = await fetch(url,
-        {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: {
-            "Content-type": "application/json"
-          }
-        }
-      )
+    return response
 
-      if (!response.ok) {
-        const res = await response.json() as ApiError
-        res.statusText = `${response.status} | ${response.statusText}`
-        throw res
-      }
-
-
-      const res = await response.json()
-      return res["shortcode"]
-    } catch (error) {
-      console.error(error)
-      throw error
-    }
   }
 
 
 
-  async function getPasted(shortcode: string): Promise<ApiResponse> {
-    try {
-      const url = `/api/pastes/?shortcode=${shortcode}`
+  async function getPasted(shortcode: string): Promise<APIPastedResponse> {
+    const url = `/pastes/?shortcode=${shortcode}`
 
-      const response = await fetch(url,
-        {
-          method: "GET",
-        }
-      )
+    const response = api_client.get<APIPastedResponse>(url)
 
-      // When the statusCode is not in range 200-299
-      if (!response.ok) {
-        const res = await response.json() as ApiError
-        res.statusText = `${response.status} | ${response.statusText}`
-        throw res
-      }
-
-
-      const res = await response.json() as ApiResponse
-
-      return res
-
-    } catch (error) {
-      if (isApiError(error)) {
-        throw error
-      }
-      const internalError: ApiError = { detail: "Internal Error", statusText: "Internal Error" }
-
-      throw internalError
-    }
+    return response
   }
 
 
-  function isApiError(error: unknown): error is ApiError {
-    return (error as ApiError).detail !== undefined
-  }
 
   return { postPasted, getPasted, getApiCapabilities, getBranding }
 }

@@ -1,8 +1,10 @@
-export type ApiResponse = {
-  shortCode: string,
+export type APIPastedResponse = {
+  // An object that has been returned in the response of successful post paste request.
+  shortcode: string,
   content: string,
 }
-export type ApiError = {
+
+export type APIError = {
   statusText: string,
   detail: string,
 }
@@ -10,7 +12,7 @@ export type ApiError = {
 
 // API Contracts.
 
-export type ApiCapabilities = {
+export type APICapabilities = {
   expiry_durations: {
     code: string,
     name: string,

@@ -4,12 +4,13 @@ import PHeader from './components/PHeader.vue';
 import { assert, onClickOutside } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
 import { useAPI } from './composables/api';
-import type { ApiError, ApiResponse } from '@/types/ApiTypes';
 import { useAppStore } from './stores/appStore'
 import { useFormStore } from './stores/formStore';
 import { useToast } from './composables/toast';
+import type { APIError } from './types/ApiTypes';
 
 const ready = ref(false)
+
 const appState = useAppStore()
 const formState = useFormStore()
 
@@ -54,12 +55,12 @@ watch(
 	async (shortcode) => {
 		if (shortcode && !Array.isArray(shortcode) && !appState.isViewMode) {
 			try {
-				const result = await useAPI().getPasted(shortcode) as ApiResponse
+				const result = await useAPI().getPasted(shortcode) 
 				formState.mutateCode(result.content)
 				appState.toggleViewMode()
 			}
 			catch (apiError) {
-				const error = apiError as ApiError
+				const error = apiError as APIError
 				formState.mutateCode(`${error.detail}`)
 			}
 
@@ -90,11 +91,10 @@ async function save() {
 				is_one_time: is_one_time
 			})
 			appState.toggleViewMode()
-
-			router.push(result)
+			router.push(result.shortcode)
 		}
 		catch (error) {
-			const err = error as ApiError
+			const err = error as APIError
 			useToast(err.detail, 'error')
 		}
 
