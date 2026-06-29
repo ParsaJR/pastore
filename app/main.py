@@ -25,7 +25,13 @@ async def lifespan(app: FastAPI):
     test_engine_connectivity()
     yield
 
-app = FastAPI(lifespan=lifespan,root_path="/api")
+app = FastAPI(
+    lifespan=lifespan,
+    root_path="/api",
+    redoc_url= "/redoc" if config.settings.env_development else None,
+    openapi_url="/openapi.json" if config.settings.env_development else None,
+    docs_url="/docs" if config.settings.env_development else None,
+)
 
 fastapi_cdn_host.patch_docs(app) # This is beneficial during the Iran's internet distruptions
 
