@@ -8,6 +8,7 @@ import { useAppStore } from './stores/appStore'
 import { useFormStore } from './stores/formStore';
 import { useToast } from './composables/toast';
 import type { APIError } from './types/ApiTypes';
+import { VueSpinner } from 'vue3-spinners'
 
 const ready = ref(false)
 
@@ -119,6 +120,11 @@ async function save() {
 			v-model:is_one_time="formState.is_one_time">
 		</RouterView>
 	</div>
+
+	<div class="flex flex-1 justify-center items-center" v-else>
+	    <VueSpinner size=50 color="green" />
+	</div>
+
 </template>
 
 <style scoped></style>
