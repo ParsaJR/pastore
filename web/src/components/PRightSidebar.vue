@@ -11,6 +11,7 @@ import { useAppStore } from '../stores/appStore'
 import PModal from './PModal.vue';
 import {moreInfoText} from '@/statics/inventory';
 import { computed, ref, watch } from 'vue';
+import PrivacyPolicyIcon from './icons/PrivacyPolicyIcon.vue';
 
 const appStore = useAppStore()
 
@@ -18,6 +19,8 @@ const more_info_open = ref(false)
 const MoreInfoDialog = () => {
 	more_info_open.value = true
 }
+
+const privacy_modal_show = ref(true)
 
 const selectedDuration = defineModel<string>('selectedDuration')
 
@@ -73,6 +76,7 @@ const selectOptions = computed(() =>
                                 <RefreshIcon />
                             </template>
                         </PButton>
+
                     </div>
                     <div v-if="appStore.isViewMode" class="flex flex-col gap-4">
                         <PButton title="Fork the code/message and make it yours!" text="Fork" @click="emit('on-fork')">
@@ -98,6 +102,9 @@ const selectOptions = computed(() =>
                     <a :href="`mailto:${appStore.serviceSupportEmail}`" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
                         <Envelope />
                     </a>
+                    <a @click="privacy_modal_show = true" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
+			<PrivacyPolicyIcon />
+                    </a>
                 </div>
             </div>
 
@@ -114,8 +121,10 @@ const selectOptions = computed(() =>
 	</template>
     </PModal>
 
+    <PModal :is-open="privacy_modal_show" @on-close="privacy_modal_show= false" >
 	<template #default>
-	    {{moreInfoText}}
+	    <div class="prose prose-sm lg:prose-base" v-html="appStore.privacy_policy">
+	    </div>
 	</template>
     </PModal>
 </template>

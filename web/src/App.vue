@@ -22,7 +22,7 @@ onBeforeMount(async () => {
 		appState.populateApiCapabilities(capabilities)
 
 	    	const branding = await useAPI().getBranding()
-	    	appState.populateBranding(branding)
+	    	await appState.populateBranding(branding)
 	}
 	catch (error) {
 		console.log(error)
