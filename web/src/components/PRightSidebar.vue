@@ -107,6 +107,13 @@ const selectOptions = computed(() =>
 
 
     <PModal :is-open="more_info_open" @on-close="more_info_open = false" >
+	<template #default >
+	    <div class="whitespace-pre-line">
+		{{moreInfoText}}
+	    </div>
+	</template>
+    </PModal>
+
 	<template #default>
 	    {{moreInfoText}}
 	</template>

@@ -14,10 +14,10 @@ const emit = defineEmits(['on-close'])
 		<transition name="modal">
 			<div v-if="props.isOpen" class="modal-mask" @click.self="emit('on-close')">
 				<div
-					class="modal-container text-lg whitespace-pre-line pt-3 border border-2 pb-6 w-96 m-auto px-5 bg-white rounded-md shadow-black transition-all">
+				    class="modal-container max-h-[90vh] overflow-y-auto no-scrollbar pt-3 border border-2 pb-6 w-96 m-auto px-4 bg-white rounded-md shadow-black transition-all">
 					<slot />
 					<slot name="footer">
-						<div class="flex justify-center">
+						<div class="flex justify-center pt-2">
 							<PButton @click="emit('on-close')" text="Understood" />
 						</div>
 					</slot>
@@ -28,6 +28,14 @@ const emit = defineEmits(['on-close'])
 </template>
 
 <style scoped>
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and old Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
+}
 .modal-mask {
 	position: fixed;
 	z-index: 9998;
