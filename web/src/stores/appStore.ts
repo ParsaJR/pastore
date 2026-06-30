@@ -7,11 +7,7 @@ interface IAppState {
   serviceSupportEmail: string,
   isViewMode: boolean,
   isSideBarVisible: boolean,
-  apiCapabilities: APICapabilities
-  modal: {
-    isVisible: boolean,
-    content: string,
-  },
+  apiCapabilities: APICapabilities,
 }
 export const useAppStore = defineStore('app', {
   state: (): IAppState => ({
@@ -23,10 +19,6 @@ export const useAppStore = defineStore('app', {
     apiCapabilities: {
       "expiry_durations": []
     },
-    modal: {
-      isVisible: false,
-      content: "",
-    }
   }),
   actions: {
     toggleSidebar() {
@@ -42,8 +34,5 @@ export const useAppStore = defineStore('app', {
       this.serviceName = branding.app_name
       this.serviceDescription = branding.app_description
     },
-    toggleModal() {
-      this.modal.isVisible = !this.modal.isVisible
-    }
   }
 })

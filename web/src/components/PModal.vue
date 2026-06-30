@@ -4,25 +4,27 @@ import PButton from './PButton.vue';
 
 const props = defineProps({
     isOpen: Boolean,
-    content: String,
 })
 
 const emit = defineEmits(['on-close'])
 
 </script>
 <template>
-    <Teleport to="body">
-        <transition name="modal">
-            <div v-if="props.isOpen" class="modal-mask" @click.self="emit('on-close')">
-                <div class="modal-container text-lg whitespace-pre-line pt-3 border border-2 pb-6 w-96 m-auto px-5 bg-white rounded-md shadow-black transition-all">
-                    {{ props.content }}
-		    <div class="flex justify-center">
-		    <PButton @click="emit('on-close')" text="Understood"/>
-		    </div>
-                </div>
-            </div>
-        </transition>
-    </Teleport>
+	<Teleport to="body">
+		<transition name="modal">
+			<div v-if="props.isOpen" class="modal-mask" @click.self="emit('on-close')">
+				<div
+					class="modal-container text-lg whitespace-pre-line pt-3 border border-2 pb-6 w-96 m-auto px-5 bg-white rounded-md shadow-black transition-all">
+					<slot />
+					<slot name="footer">
+						<div class="flex justify-center">
+							<PButton @click="emit('on-close')" text="Understood" />
+						</div>
+					</slot>
+				</div>
+			</div>
+		</transition>
+	</Teleport>
 </template>
 
 <style scoped>

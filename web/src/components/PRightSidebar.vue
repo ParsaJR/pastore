@@ -9,16 +9,15 @@ import PSelect from './PSelect.vue';
 import PCheckBox from './PCheckbox.vue';
 import { useAppStore } from '../stores/appStore'
 import PModal from './PModal.vue';
-import { useModal } from '@/composables/modal';
 import {moreInfoText} from '@/statics/inventory';
-import { computed, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const appStore = useAppStore()
 
-const modal = useModal()
- const MoreInfoDialog = () => {
-     modal.show(moreInfoText)
- }
+const more_info_open = ref(false)
+const MoreInfoDialog = () => {
+	more_info_open.value = true
+}
 
 const selectedDuration = defineModel<string>('selectedDuration')
 
@@ -107,7 +106,11 @@ const selectOptions = computed(() =>
 
 
 
-    <PModal :content="appStore.modal.content" :is-open="appStore.modal.isVisible" @on-close="modal.toggle()" />
+    <PModal :is-open="more_info_open" @on-close="more_info_open = false" >
+	<template #default>
+	    {{moreInfoText}}
+	</template>
+    </PModal>
 </template>
 <style scoped>
 .sidebar-footer {
