@@ -71,10 +71,10 @@ class BrandingBase(SQLModel):
     app_name: str
     support_email: EmailStr
     app_description: str
+    privacy_policy: str
 
 class Branding(BrandingBase, table=True):
     __tablename__ = "branding"  # pyright: ignore[reportAssignmentType]
 
     id: int | None = Field(default=None,primary_key=True)
-    privacy_policy: str
     

@@ -17,3 +17,4 @@ class APIBranding():
     app_name: str
     support_email: str
     app_description: str
+    privacy_policy: str

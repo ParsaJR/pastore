@@ -44,6 +44,7 @@ class AdminService:
             app_name=branding.app_name,
             app_description=branding.app_description,
             support_email=branding.support_email,
+            privacy_policy=branding.privacy_policy,
         )
 
 
