@@ -10,6 +10,8 @@ from fastapi.testclient import TestClient
 from app.db import get_session
 from app.main import app
 from app.models.pasted import Pasted
+from app.models.pasted import PastedExpiryDuration
+
 
 
 # Presumably, we're cheating a little bit by using sqlite instead of
@@ -26,6 +28,16 @@ def session_fixture():
     SQLModel.metadata.create_all(engine)
 
     with Session(engine) as session:
+        session.add(
+            PastedExpiryDuration(
+                name="1 day",
+                code="oneDay",
+                days=1,
+            )
+        )
+
+        session.commit()
+
         yield session
 
 
@@ -44,7 +56,7 @@ def client_fixture(session: Session):
 def test_create_pasted_success(client: TestClient):
     # 1. Create
     response = client.post(
-        "/pastes", json={"content": "lorem ipsum dolor", "duration": "0"}
+        "/pastes", json={"content": "lorem ipsum dolor","expiry_code": "oneDay","is_one_time": False}
     )
 
     data = response.json()
@@ -68,17 +80,18 @@ def test_create_paste_failure(client: TestClient):
         "/pastes",
         json={
             "content": "lorem ipsum dolor",
-            "duration": "41148",
+            "expiry_code": "yas",
+            "is_one_time": False
         },  # duration value is invalid.
     )
 
     # assert response.status_code != 200
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 def test_view_count_logic(client: TestClient, session: Session):
     # 1. Create
-    response = client.post("/pastes", json={"content": "rabio", "duration": "0"})
+    response = client.post("/pastes", json={"content": "rabio", "expiry_code": "oneDay","is_one_time": False})
 
     data = response.json()
 
