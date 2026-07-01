@@ -25,7 +25,10 @@ url_object = URL.create(
 
 url_object = url_object.render_as_string(hide_password=False)
 
-config.set_main_option("sqlalchemy.url", url_object)
+url = config.get_main_option("sqlalchemy.url")
+if not url:
+    config.set_main_option("sqlalchemy.url", url_object)
+
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
