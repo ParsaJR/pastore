@@ -54,15 +54,19 @@ def client_fixture(session: Session):
 
 
 def test_create_pasted_success(client: TestClient):
+    """A legitimate paste, must be created successfully"""
+
+    content = "lorem ipsum dolor"
+
     # 1. Create
     response = client.post(
-        "/pastes", json={"content": "lorem ipsum dolor","expiry_code": "oneDay","is_one_time": False}
+        "/pastes", json={"content": content,"expiry_code": "oneDay","is_one_time": False}
     )
 
     data = response.json()
 
-    assert response.status_code == 201
-    assert data["content"] == "lorem ipsum dolor"
+    assert response.status_code == status.HTTP_201_CREATED
+    assert data["content"] == content
 
     # 2. Now, fetch the result.
     shortcode = data["shortcode"]
@@ -70,12 +74,12 @@ def test_create_pasted_success(client: TestClient):
 
     data = response.json()
 
-    assert response.status_code == 200
-    assert data["content"] == "lorem ipsum dolor"
+    assert response.status_code == status.HTTP_200_OK
+    assert data["content"] == content
 
 
 def test_create_paste_failure(client: TestClient):
-    ## Should endup with validation error.
+    ## Should endup with Bad Request error, because of the non-existent expiry_code.
     response = client.post(
         "/pastes",
         json={
@@ -87,6 +91,37 @@ def test_create_paste_failure(client: TestClient):
 
     # assert response.status_code != 200
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_create_pasted_one_time(client: TestClient):
+    """A one time paste shouldn't be available on the second read attempts"""
+
+    content = "lorem ipsum dolor"
+
+    # 1. Create
+    response = client.post(
+        "/pastes", json={"content": content,"expiry_code": "oneDay","is_one_time": True}
+    )
+
+    data = response.json()
+
+    # 2. Now, fetch the result.
+    shortcode = data["shortcode"]
+    response = client.get(f"/pastes/?shortcode={shortcode}")
+
+    data = response.json()
+
+    assert response.status_code == status.HTTP_200_OK
+    assert data["content"] == content
+
+
+    # 3. Second attempt
+
+    response = client.get(f"/pastes/?shortcode={shortcode}")
+
+    data = response.json()
+
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 def test_view_count_logic(client: TestClient, session: Session):
