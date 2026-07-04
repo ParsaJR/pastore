@@ -21,7 +21,6 @@ class Settings(BaseSettings):
 
     ## General
     app_name: str = "Generic Pasted Service"
-    contact_email: str = "hi@example.org"
 
     development: bool = False
 
