@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     )
 
     ## General
-    app_name: str = "Generic Pasted Service"
+    app_name: str = "Pastore"
 
     development: bool = False
 
