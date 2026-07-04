@@ -9,11 +9,11 @@ class LogLevels(Enum):
 
 
 # Envs.
-# 1. Can be override at runtime. (Prefix Using "PASTED_")
+# 1. Can be override at runtime. (Prefix Using "PASTORE_")
 # 2. Can be set also by the .env file in the project's root folder. ONLY IN DEVELOPMENT!
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_prefix="PASTED_",
+        env_prefix="PASTORE_",
         env_file=".env",
         env_file_encoding="utf-8",
         case_sensitive=False,
@@ -23,14 +23,14 @@ class Settings(BaseSettings):
     app_name: str = "Generic Pasted Service"
     contact_email: str = "hi@example.org"
 
-    env_development: bool = False
+    development: bool = False
 
     ## Database related
-    DatabaseHost: str = "localhost"
-    DatabasePort: int = 5432  # Postgres uses 5432 by default, for active listen port.
-    DatabasePassword: str = "secret"
-    DatabaseUser: str = "postgres"
-    DatabaseName: str = "pasted"
+    Database_Host: str = "localhost"
+    Database_Port: int = 5432  # Postgres uses 5432 by default, for active listen port.
+    Database_Password: str = "secret"
+    Database_Username: str = "postgres"
+    Database_Name: str = "pasted"
 
     ## JWT Issues
     JWT_Secret: str

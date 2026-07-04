@@ -4,11 +4,11 @@ from app.core import config
 
 url_object = URL.create(
     "postgresql",
-    config.settings.DatabaseUser,
-    config.settings.DatabasePassword,
-    config.settings.DatabaseHost,
-    config.settings.DatabasePort,
-    config.settings.DatabaseName,
+    config.settings.Database_Username,
+    config.settings.Database_Password,
+    config.settings.Database_Host,
+    config.settings.Database_Port,
+    config.settings.Database_Name,
 )
 
 engine = create_engine(url_object)

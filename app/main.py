@@ -28,9 +28,9 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     lifespan=lifespan,
     root_path="/api",
-    redoc_url= "/redoc" if config.settings.env_development else None,
-    openapi_url="/openapi.json" if config.settings.env_development else None,
-    docs_url="/docs" if config.settings.env_development else None,
+    redoc_url= "/redoc" if config.settings.development else None,
+    openapi_url="/openapi.json" if config.settings.development else None,
+    docs_url="/docs" if config.settings.development else None,
 )
 
 fastapi_cdn_host.patch_docs(app) # This is beneficial during the Iran's internet distruptions
@@ -98,7 +98,7 @@ async def validation_exception_handler(request, exc):
         },
     )
 
-    if not config.settings.env_development:
+    if not config.settings.development:
         return JSONResponse(
             status_code=422,
             content=jsonable_encoder(

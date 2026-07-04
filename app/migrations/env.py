@@ -16,11 +16,11 @@ config = context.config
 
 url_object = URL.create(
     "postgresql",
-    settings.settings.DatabaseUser,
-    settings.settings.DatabasePassword,
-    settings.settings.DatabaseHost,
-    settings.settings.DatabasePort,
-    settings.settings.DatabaseName,
+    settings.settings.Database_Username,
+    settings.settings.Database_Password,
+    settings.settings.Database_Host,
+    settings.settings.Database_Port,
+    settings.settings.Database_Name,
 )
 
 url_object = url_object.render_as_string(hide_password=False)
