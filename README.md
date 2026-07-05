@@ -1,7 +1,6 @@
 ## Pastore
 
-This is the repository of the Pastore pastebin service.
-
+A pastebin service that you actually own.
 
 ## (Non-)Features
 
@@ -91,11 +90,12 @@ It defines four services:
 - A migration service that runs off the alembic migration script, to make the
   database schema ready to use for the api.
 - Api service which runs the Pastore api.
-
+- A frontend service that knows how to interact with the Pastore's api. As for
+  now, it assumes your front-end is available at the "/api" of the same origin.
+  
 > [!IMPORTANT]
 > As for now, You need to reverse proxy the api service under the location
-> "/api" in the same origin as where the frontend service has served. Just like
-> the nginx configuration below:
+> "/api" in the same origin as where the frontend service has served. Here the example using "nginx" as a web server:
 
 >```
 >   server {
@@ -115,9 +115,6 @@ It defines four services:
 >
 >```
 
-
-- A frontend service that knows how to interact with the Pastore's api. As for
-  now, it assumes your front-end is available at the "/api" of the same origin.
 
 
 
