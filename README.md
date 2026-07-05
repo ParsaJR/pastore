@@ -5,10 +5,10 @@ This is the repository of the Pastore pastebin service.
 
 ## (Non-)Features
 
-✅ A good looking web client, powered by [Vue.JS](https://vuejs.org)
-✅ Beautiful syntax highlighting, powered by [Shiki](https://shiki.style/)
-✅ A language detector that is good enough, powered by [Flourite](https://github.com/teknologi-umum/flourite) 
-✅ Administration capabilities
+- A good looking web client, powered by [Vue.JS](https://vuejs.org)
+- Beautiful syntax highlighting, powered by [Shiki](https://shiki.style/)
+- A language detector that is good enough, powered by [Flourite](https://github.com/teknologi-umum/flourite) 
+- Administration capabilities
 
 
 
@@ -72,7 +72,7 @@ services:
     restart: unless-stopped
 
   frontend:
-    image: parsajr/pastore-frontend:v0.1
+    image: parsajr/pastore-frontend
     depends_on:
       api:
         condition: service_started
