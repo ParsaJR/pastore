@@ -3,6 +3,9 @@
 *docker-compose*
 .gitignore
 .venv
+README.md
+justfile
+web
 
 .mypy_cache/
 __pycache__/
