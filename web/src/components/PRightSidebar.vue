@@ -20,7 +20,7 @@ const MoreInfoDialog = () => {
 	more_info_open.value = true
 }
 
-const privacy_modal_show = ref(true)
+const privacy_modal_show = ref(false)
 
 const selectedDuration = defineModel<string>('selectedDuration')
 
