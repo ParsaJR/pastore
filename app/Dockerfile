@@ -21,4 +21,4 @@ RUN apt-get update && apt-get install -y \
 
 COPY . /app
 
-CMD ["uv", "run", "fastapi", "run", "/app/main.py", "--port", "80"]
+CMD ["uv", "run", "fastapi", "run", "./app/main.py", "--port", "80"]
