@@ -47,7 +47,7 @@ services:
 
 
   migrate:
-    image: pastore-local:v0.1
+    image: parsajr/pastore-api
     command: uv run alembic -c ./app/alembic.ini upgrade head
     environment:
         <<: *common-env
@@ -59,7 +59,7 @@ services:
 # REQUIRED: As for now, You need to Reverse proxy the api service under the
 # location "/api", in the same origin as where frontend has served.
   api:
-    image: pastore-local:v0.1
+    image: parsajr/pastore-api
     environment:
         <<: *common-env
 
