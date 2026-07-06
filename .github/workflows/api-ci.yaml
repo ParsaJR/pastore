@@ -7,7 +7,7 @@ on:
 
 jobs:
   push_to_registry:
-    name: Build and push the FastAPI server docker image to DockerHub
+    name: Build and push the Pastore docker image to DockerHub
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +25,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: parsajr/pastore-api
+          images: parsajr/pastore
           tags: |
             type=ref,event=tag
             type=sha
