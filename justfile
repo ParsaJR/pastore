@@ -8,8 +8,8 @@ set quiet
 setup-env:
 	#!/usr/bin/env bash
 	cat > .env <<EOF
-	PASTED_JWT_SECRET=blasdadsajdasadflkjdsaflkl1123
-	PASTED_ENV_DEVELOPMENT=True
+	PASTORE_JWT_SECRET=blasdadsajdasadflkjdsaflkl1123
+	PASTORE_DEVELOPMENT=True
 	EOF
 	
 # Install the vue project dependencies using pnpm toolkit.
