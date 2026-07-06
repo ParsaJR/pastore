@@ -1,9 +1,7 @@
 name: Frontend CI
 
 on:
-  push:
-    tags:
-      - 'v**'
+  workflow_dispatch: 
 
 jobs:
   push_to_registry:
