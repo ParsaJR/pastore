@@ -33,7 +33,12 @@ app = FastAPI(
     docs_url="/docs" if config.settings.development else None,
 )
 
-fastapi_cdn_host.patch_docs(app) # This is beneficial during the Iran's internet distruptions
+# This is beneficial during the Iran's internet distruptions. The OpenAPI front-end wasn't able to load on that shitty days.
+fastapi_cdn_host.patch_docs(app) 
+
+
+if not config.settings.development:
+    app.frontend(path="/", directory="dist", fallback="index.html")
 
 app.include_router(auth.router)
 app.include_router(pasted.router)

@@ -5,7 +5,7 @@
 .venv
 README.md
 justfile
-web
+web/node_modules
 
 .mypy_cache/
 __pycache__/

@@ -18,7 +18,6 @@ A pastebin service that you actually own.
 Create a `docker-compose.yml` file with the following contents:
 
 ```yaml
-
 x-common-env: &common-env
     PASTORE_JWT_SECRET: supersecret
     PASTORE_DATABASE_HOST: db
@@ -46,7 +45,7 @@ services:
 
 
   migrate:
-    image: parsajr/pastore-api
+    image: parsajr/pastore
     command: uv run alembic -c ./app/alembic.ini upgrade head
     environment:
         <<: *common-env
@@ -55,28 +54,16 @@ services:
         condition: service_healthy
     restart: "no"
 
-# REQUIRED: As for now, You need to Reverse proxy the api service under the
-# location "/api", in the same origin as where frontend has served.
   api:
-    image: parsajr/pastore-api
+    image: parsajr/pastore
     environment:
         <<: *common-env
 
-    depends_on: # Depends on the migration tasks that actually overrides the
-    # main image api.
+    depends_on: 
       migrate:
         condition: service_completed_successfully
     ports:
       - "8080:80"
-    restart: unless-stopped
-
-  frontend:
-    image: parsajr/pastore-frontend
-    depends_on:
-      api:
-        condition: service_started
-    ports:
-      - "8081:8080"
     restart: unless-stopped
 
 volumes:
@@ -84,40 +71,34 @@ volumes:
 
 ```
 
-It defines four services:
+It defines three services:
 
 - A PostgreSQL database container `db` which stores all the persistent data.
-- A migration service that runs off the alembic migration script, to make the
-  database schema ready to use for the api.
-- Api service which runs the Pastore api.
-- A frontend service that knows how to interact with the Pastore's api. As for
-  now, it assumes your front-end is available at the "/api" of the same origin.
-  
-> [!IMPORTANT]
-> As for now, You need to reverse proxy the api service under the location
-> "/api" in the same origin as where the frontend service has served. Here the example using "nginx" as a web server:
 
->```
->   server {
->       listen       80;
->       listen       [::]:80;
->       server_name  test.example.org;
->
->	location / {
->		proxy_pass http://localhost:8081;
->	}
->
->	location /api {
->		proxy_pass http://localhost:8080;
->	}
->
->  }
->
->```
+- A migration service that runs off the alembic migration script to make the
+  database schema ready to consume for the api.
 
+- Api service which runs the Pastore api and hosts its frontend client.
 
+<!-- > [!IMPORTANT] -->
+<!-- > As for now, You need to reverse proxy the api service under the location -->
+<!-- > "/api" in the same origin as where the frontend service has served. Just like -->
+<!-- > the nginx configuration below: -->
 
-
-
-
-
+<!-- >``` -->
+<!-- >   server { -->
+<!-- >       listen       80; -->
+<!-- >       listen       [::]:80; -->
+<!-- >       server_name  test.example.org; -->
+<!-- > -->
+<!-- >	location / { -->
+<!-- >		proxy_pass http://localhost:8081; -->
+<!-- >	} -->
+<!-- > -->
+<!-- >	location /api { -->
+<!-- >		proxy_pass http://localhost:8080; -->
+<!-- >	} -->
+<!-- > -->
+<!-- >  } -->
+<!-- > -->
+<!-- >``` -->
