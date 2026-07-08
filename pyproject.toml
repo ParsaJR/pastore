@@ -89,3 +89,4 @@ dependencies = [
 [tool.pyright]
 
 reportUnusedCallResult = false
+typeCheckingMode = "standard"
