@@ -48,6 +48,13 @@ def setup_logger():
     if config.settings.LOG_LEVEL == config.LogLevels.Debug:
         logger.setLevel(logging.DEBUG)
 
+    logger.addFilter(
+        CorrelationIdFilter(
+            uuid_length=32 if not config.settings.development else 6,
+            default_value="-",
+        )
+    )
+
     handler = StreamHandler(sys.stdout)
     if not config.settings.LOG_STRUCTURED:
         handler.setFormatter(JsonFormatter(json_ensure_ascii=False))

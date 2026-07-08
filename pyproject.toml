@@ -11,6 +11,7 @@ dependencies = [
     "anyio",
     "argon2-cffi",
     "argon2-cffi-bindings",
+    "asgi-correlation-id>=5.0.1",
     "black",
     "certifi",
     "cffi",

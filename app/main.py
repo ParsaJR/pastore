@@ -16,7 +16,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from app.core import logs
 from app.db import test_engine_connectivity
 from app.routers import auth, management, pasted
-
+from asgi_correlation_id import CorrelationIdMiddleware, correlation_id
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,13 +25,18 @@ async def lifespan(app: FastAPI):
     test_engine_connectivity()
     yield
 
+
+
+
 app = FastAPI(
     lifespan=lifespan,
     root_path="/api",
     redoc_url= "/redoc" if config.settings.development else None,
     openapi_url="/openapi.json" if config.settings.development else None,
     docs_url="/docs" if config.settings.development else None,
+    
 )
+
 
 # This is beneficial during the Iran's internet distruptions. The OpenAPI front-end wasn't able to load on that shitty days.
 fastapi_cdn_host.patch_docs(app) 
@@ -44,23 +49,21 @@ app.include_router(auth.router)
 app.include_router(pasted.router)
 app.include_router(management.router)
 
-#######################
-# Logging middlewares #
-#######################
-
 logger = logs.get_logger()
 
+## Middlewares
 @app.middleware("http")
 async def log_process_time(request: Request, call_next):
     """It just logs requests for the sake of keeping track of the general performance results"""
+
     start_time = time.perf_counter()
     try:
         response = await call_next(request)
         return response
     finally:
         process_time = time.perf_counter() - start_time
-        logger.info(
-            f"{request.method} | {request.url.path} | request_completed ",
+        logger.debug(
+            "request_completed",
             extra={
                 "tags": {
                     "http_method": request.method,
@@ -71,10 +74,15 @@ async def log_process_time(request: Request, call_next):
         )
 
 
+app.add_middleware(CorrelationIdMiddleware)
+
+
+## Exception handlers
+
 @app.exception_handler(StarletteHTTPException)
 async def custom_http_exception_handler(request, exc):
     logger.error(
-        f"{request.method} {exc.status_code} | {request.url.path}",
+        "http_exception",
         extra={
             "tags": {
                 "http_method": request.method,
@@ -92,7 +100,7 @@ async def validation_exception_handler(request, exc):
     status_code = 422
 
     logger.warning(
-        f"{request.method} {status_code} | {request.url.path}",
+        "validation_error",
         extra={
             "tags": {
                 "http_method": request.method,

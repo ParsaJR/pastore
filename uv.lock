@@ -57,6 +57,7 @@ dependencies = [
     { name = "anyio" },
     { name = "argon2-cffi" },
     { name = "argon2-cffi-bindings" },
+    { name = "asgi-correlation-id" },
     { name = "black" },
     { name = "certifi" },
     { name = "cffi" },
