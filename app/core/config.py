@@ -36,7 +36,8 @@ class Settings(BaseSettings):
     JWT_TTL: int = 604_800
 
     ## Logs
-    LOG_ENABLED: bool = False
+    LOG_ENABLED: bool = True
+    LOG_STRUCTURED: bool = False
     LOG_LOKI_URL: str = ""
     LOG_LEVEL: LogLevels = LogLevels.Debug
 

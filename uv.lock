@@ -104,7 +104,7 @@ dependencies = [
     { name = "pylsp-mypy" },
     { name = "pytest" },
     { name = "python-dotenv" },
-    { name = "python-logging-loki-v2" },
+    { name = "python-json-logger" },
     { name = "python-lsp-jsonrpc" },
     { name = "python-lsp-server" },
     { name = "python-multipart" },
@@ -140,6 +140,7 @@ requires-dist = [
     { name = "anyio" },
     { name = "argon2-cffi" },
     { name = "argon2-cffi-bindings" },
+    { name = "asgi-correlation-id", specifier = ">=5.0.1" },
     { name = "black" },
     { name = "certifi" },
     { name = "cffi" },
@@ -187,7 +188,7 @@ requires-dist = [
     { name = "pylsp-mypy" },
     { name = "pytest" },
     { name = "python-dotenv" },
-    { name = "python-logging-loki-v2" },
+    { name = "python-json-logger", specifier = ">=4.1.0" },
     { name = "python-lsp-jsonrpc" },
     { name = "python-lsp-server" },
     { name = "python-multipart" },
@@ -256,6 +257,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/74/cd/15777dfde1c29d96de7f18edf4cc94c385646852e7c7b0320aa91ccca583/argon2_cffi_bindings-25.1.0-cp39-abi3-win32.whl", hash = "sha256:473bcb5f82924b1becbb637b63303ec8d10e84c8d241119419897a26116515d2", size = 27180, upload-time = "2025-07-30T10:01:57.759Z" },
     { url = "https://files.pythonhosted.org/packages/e2/c6/a759ece8f1829d1f162261226fbfd2c6832b3ff7657384045286d2afa384/argon2_cffi_bindings-25.1.0-cp39-abi3-win_amd64.whl", hash = "sha256:a98cd7d17e9f7ce244c0803cad3c23a7d379c301ba618a5fa76a67d116618b98", size = 31715, upload-time = "2025-07-30T10:01:58.56Z" },
     { url = "https://files.pythonhosted.org/packages/42/b9/f8d6fa329ab25128b7e98fd83a3cb34d9db5b059a9847eddb840a0af45dd/argon2_cffi_bindings-25.1.0-cp39-abi3-win_arm64.whl", hash = "sha256:b0fdbcf513833809c882823f98dc2f931cf659d9a1429616ac3adebb49f5db94", size = 27149, upload-time = "2025-07-30T10:01:59.329Z" },
+]
+
+[[package]]
+name = "asgi-correlation-id"
+version = "5.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "starlette" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2a/25/df29145ef02ca69548e82b50ed15ac5c438ab5caf7b8e717d2b1258f5bea/asgi_correlation_id-5.0.1.tar.gz", hash = "sha256:ad54374a300f000b8bef3b39738768842394de0a3c528a6f77ef3ca053eb89a1", size = 10642, upload-time = "2026-06-09T15:09:49.112Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ae/fe/3f5a304ddc2b625a6a2fda913b29bc4675c434016557592791cf1aa39a60/asgi_correlation_id-5.0.1-py3-none-any.whl", hash = "sha256:dfea97c1fc41e8eadc3e518a311427cba6e7e79d9ddb6a6c7ea8879f2408d91d", size = 12026, upload-time = "2026-06-09T15:09:48.155Z" },
 ]
 
 [[package]]
@@ -972,16 +985,12 @@ wheels = [
 ]
 
 [[package]]
-name = "python-logging-loki-v2"
-version = "1.1.1"
+name = "python-json-logger"
+version = "4.1.0"
 source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "requests" },
-    { name = "rfc3339" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/e2/2b/814681aa9857acebd5c70139a270fc560d3332b54e820b7d7cf184617724/python_logging_loki_v2-1.1.1.tar.gz", hash = "sha256:327d539898f2b397814f8bc1b57f0bc8721a6aced802a2f8cf6fd52c0b46d208", size = 9989, upload-time = "2025-12-12T16:44:44.25Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f7/ff/3cc9165fd44106973cd7ac9facb674a65ed853494592541d339bdc9a30eb/python_json_logger-4.1.0.tar.gz", hash = "sha256:b396b9e3ed782b09ff9d6e4f1683d46c83ad0d35d2e407c09a9ebbf038f88195", size = 17573, upload-time = "2026-03-29T04:39:56.805Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ff/57/cc4200ae68d141468b361235619791a37927e26e12de02a92335f302ebb9/python_logging_loki_v2-1.1.1-py3-none-any.whl", hash = "sha256:ca07bbcd3245916fd222aa452cc3f9ff4fffc8ee8292a5fb743643437013b46c", size = 7928, upload-time = "2025-12-12T16:44:43.395Z" },
+    { url = "https://files.pythonhosted.org/packages/27/be/0631a861af4d1c875f096c07d34e9a63639560a717130e7a87cbc82b7e3f/python_json_logger-4.1.0-py3-none-any.whl", hash = "sha256:132994765cf75bf44554be9aa49b06ef2345d23661a96720262716438141b6b2", size = 15021, upload-time = "2026-03-29T04:39:55.266Z" },
 ]
 
 [[package]]

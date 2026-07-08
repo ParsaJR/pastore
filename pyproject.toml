@@ -58,7 +58,7 @@ dependencies = [
     "pylsp-mypy",
     "pytest",
     "python-dotenv",
-    "python-logging-loki-v2",
+    "python-json-logger>=4.1.0",
     "python-lsp-jsonrpc",
     "python-lsp-server",
     "python-multipart",
