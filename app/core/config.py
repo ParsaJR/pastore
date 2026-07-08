@@ -3,9 +3,26 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class LogLevels(Enum):
+class LogLevels(str,Enum):
     Info = "info"
     Debug = "debug"
+
+
+    @classmethod
+    # Using the missing method i can actually override some custom logic for the
+    # enum lookup, after it seemed missing...
+    def _missing_(cls, value):
+        if isinstance(value, str):
+            value = value.lower()
+
+            for member in cls:
+                if member.lower() == value:
+                    return member
+
+        
+        return None
+
+
 
 
 # Envs.
