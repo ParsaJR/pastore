@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Session, create_engine, text
 from sqlalchemy.engine import URL
-from app.core import config
+from app.core import config, logs
 
 url_object = URL.create(
     "postgresql",
@@ -18,12 +18,13 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
 def test_engine_connectivity():
+    logger = logs.get_logger()
     try: 
         conn = engine.connect()
         _ = conn.execute(text('SELECT 1'))
-        print('\n\n ✅ Successfully connceted to database!')
+        logger.info('✅ Successfully connceted to database!')
     except Exception as e:
-        print('\n\n ❗️ Connection to database failed!')
+        logger.info('\n\n ❗️ Connection to database failed!')
         raise e
 
     
