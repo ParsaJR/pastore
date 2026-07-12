@@ -55,14 +55,14 @@ export function createApiClient(apiOptions: ApiClientOptions) {
       });
     },
 
-    post<T>(url: string, body: unknown, headers?: HeadersInit) {
+    post<T>(url: string, body: BodyInit, headers?: HeadersInit) {
       return request<T>(apiOptions.baseUrl + url, {
         method: "POST",
         headers: {
 	  "Content-Type": "application/json",
 	  ...headers
 	},
-        body: JSON.stringify(body),
+        body: body,
       });
     },
   };
