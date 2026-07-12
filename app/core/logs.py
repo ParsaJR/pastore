@@ -56,7 +56,7 @@ def setup_logger():
     )
 
     handler = StreamHandler(sys.stdout)
-    if not config.settings.LOG_STRUCTURED:
+    if config.settings.LOG_STRUCTURED:
         handler.setFormatter(JsonFormatter(json_ensure_ascii=False))
     else:
         handler.setFormatter(TextFormatter(datefmt="%Y-%m-%d %H:%M:%S"))
