@@ -1,5 +1,7 @@
 @import "tailwindcss";
+@import "@nuxt/ui";
 @plugin "@tailwindcss/typography";
+
 
 @theme {
   --text-primary: #000000;
@@ -15,16 +17,10 @@
 html, body {
     @apply font-serif;
     background-color: var(--ui-bg);
+    color: var(--text-primary)
 }
 
 .code_text_area {
     @apply font-mono;
 }
 
-:root {
-  --ui-bg: var(--ui-color-neutral-50);
-}
-
-.dark {
-  --ui-bg: var(--ui-color-neutral-950);
-}

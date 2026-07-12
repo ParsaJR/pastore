@@ -1,0 +1,131 @@
+<script setup lang="ts">
+import { computed, onBeforeMount, ref, Teleport, useTemplateRef, watch } from 'vue';
+import PHeader from '@/components/PHeader.vue';
+import { assert, onClickOutside } from '@vueuse/core';
+import { useRoute, useRouter } from 'vue-router';
+import { useAPI } from '../composables/api';
+import { useAppStore } from '../stores/appStore'
+import { useFormStore } from '../stores/formStore';
+import { useToast } from '../composables/toast';
+import type { APIError } from '../types/ApiTypes';
+import { VueSpinner } from 'vue3-spinners'
+import RightSidebar from '@/views/RightSidebarView.vue';
+import PasteView from '../views/PasteView.vue';
+
+const ready = ref(false)
+
+const appState = useAppStore()
+const formState = useFormStore()
+
+
+onBeforeMount(async () => {
+	try {
+		const capabilities = await useAPI().getApiCapabilities()
+		appState.populateApiCapabilities(capabilities)
+
+	    	const branding = await useAPI().getBranding()
+	    	await appState.populateBranding(branding)
+	}
+	catch (error) {
+		console.log(error)
+	}
+     finally {
+	 	ready.value = true
+     }
+})
+
+const selectedDuration = ref()
+
+
+// The empty string means the first option on the PSelect component, which is the placeholder.
+selectedDuration.value = ""
+
+// Faciliates the toggle functionality between the mobile toggle button and the sidebar.
+const sideBarOpen = ref(false)
+
+// On click outside, Close the sidebar.
+const target = useTemplateRef<HTMLElement>('target')
+
+onClickOutside(target, () => sideBarOpen.value = false)
+
+
+const route = useRoute()
+
+const router = useRouter()
+
+watch(
+	() => route.params.shortcode,
+	async (shortcode) => {
+		if (shortcode && !Array.isArray(shortcode) && !appState.isViewMode) {
+			try {
+				const result = await useAPI().getPasted(shortcode) 
+				formState.mutateCode(result.content)
+				appState.toggleViewMode()
+			}
+			catch (apiError) {
+				const error = apiError as APIError
+				formState.mutateCode(`${error.detail}`)
+			}
+
+		}
+	},
+     {immediate: true}
+)
+
+
+async function save() {
+	if (!formState.code) {
+		useToast("An empty text, cannot be saved.", 'info')
+		return
+	}
+	if (!formState.duration) {
+	    useToast("Please select an expiry duration.", 'info')
+	    return
+	}
+
+	if (formState.duration) {
+		const code = formState.code
+		const duration = formState.duration
+		const is_one_time = formState.is_one_time
+
+		try {
+			const result = await useAPI().postPasted({
+				content: code,
+				expiry_code: duration,
+				is_one_time: is_one_time
+			})
+			appState.toggleViewMode()
+			router.push(result.shortcode)
+		}
+		catch (error) {
+			const err = error as APIError
+			useToast(err.detail, 'error')
+		}
+
+	}
+	else {
+		useToast("Fill the required fields", 'error')
+	}
+}
+</script>
+
+
+<template>
+	<PHeader />
+	<div class="px-5 py-3 flex-1 flex" v-if="ready">
+		<Suspense>
+			<PasteView class="w-full sm:w-[65%]" v-model:code="formState.code"></PasteView>
+			<template #fallback>
+				Loading...
+			</template>
+		</Suspense>
+		<RightSidebar ref="target" v-model:selectedDuration="formState.duration"
+			@on-clear="formState.mutateCode('')" @on-save="save" @on-fork="appState.toggleViewMode()"
+			v-model:is_one_time="formState.is_one_time">
+		</RightSidebar>
+	</div>
+
+	<div class="flex flex-1 justify-center items-center" v-else>
+	    <VueSpinner size=50 color="green" />
+	</div>
+</template>

@@ -9,6 +9,11 @@ export type APIError = {
   detail: string,
 }
 
+export type APIToken = {
+  access_token: string,
+  token_type: string,
+}
+
 
 // API Contracts.
 

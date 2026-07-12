@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import Envelope from './icons/EnvelopeIcon.vue';
-import Github from './icons/GithubIcon.vue';
-import RefreshIcon from './icons/RefreshIcon.vue';
-import SaveIcon from './icons/SaveIcon.vue';
-import ForkIcon from './icons/ForkIcon.vue';
-import PButton from './PButton.vue';
-import PSelect from './PSelect.vue';
-import PCheckBox from './PCheckbox.vue';
-import { useAppStore } from '../stores/appStore'
-import PModal from './PModal.vue';
+import Envelope from '@/components/icons/EnvelopeIcon.vue';
+import Github from '@/components/icons/GithubIcon.vue';
+import RefreshIcon from '@/components/icons/GithubIcon.vue';
+import SaveIcon from '@/components/icons/SaveIcon.vue';
+import ForkIcon from '@/components/icons/ForkIcon.vue';
+import PButton from '@/components/PButton.vue';
+import PSelect from '@/components/PSelect.vue';
+import PCheckBox from '@/components/PCheckbox.vue';
+import { useAppStore } from '@/stores/appStore'
+import PModal from '@/components/PModal.vue';
 import {moreInfoText} from '@/statics/inventory';
 import { computed, ref, watch } from 'vue';
-import PrivacyPolicyIcon from './icons/PrivacyPolicyIcon.vue';
+import PrivacyPolicyIcon from '@/components/icons/PrivacyPolicyIcon.vue';
 
 const appStore = useAppStore()
 

@@ -1,34 +1,44 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import RightSidebar from '../components/PRightSidebar.vue'
-import NotFound from '../views/NotFound.vue'
+
+import NotFound from '@/views/NotFound.vue'
+import UserLayout from '@/views/UserLayout.vue'
+import AdminLayout from '@/views/AdminLayout.vue'
+import AdminDashboard from '@/components/AdminDashboard.vue'
+import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      components: {
-        default: HomeView,
-        RightSidebar: RightSidebar
-      },
+      name: 'userLayout',
+      component: UserLayout
     },
     {
       path: '/:shortcode',
       name: 'view',
-      components: {
-        default: HomeView,
-        RightSidebar: RightSidebar
-      },
+      component: UserLayout
+    },
+    {
+      path: '/admin',
+      component: AdminLayout,
+      children: [
+        {
+          path: '',
+          name: 'admin.dashboard',
+          component: AdminDashboard,
+        },
+      ],
+    },
+    {
+      path: '/login',
+      name: 'login-view',
+      component: LoginView,
     },
     {
       path: '/:pathMatch(.*)*',
-      components:{
-        default: NotFound,
-        RightSidebar: RightSidebar
-      }
-    }
+      component: NotFound
+    },
   ],
 })
 
