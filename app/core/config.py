@@ -38,8 +38,10 @@ class Settings(BaseSettings):
 
     ## General
     app_name: str = "Pastore"
+    development: bool = False # Is it in dev environment?
 
-    development: bool = False
+    run_startup_tasks: bool = True
+    initial_admin_password: str | None = None
 
     ## Database related
     Database_Host: str = "localhost"

@@ -18,11 +18,16 @@ from app.db import test_engine_connectivity
 from app.routers import auth, management, pasted
 from asgi_correlation_id import CorrelationIdMiddleware, correlation_id
 
+from app.scripts import bootstrap
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # db.create_db_and_tables()
     logs.setup_logger()
     test_engine_connectivity()
+
+    if config.settings.run_startup_tasks:
+        bootstrap.run()
     yield
 
 
@@ -54,7 +59,7 @@ logger = logs.get_logger()
 ## Middlewares
 @app.middleware("http")
 async def log_process_time(request: Request, call_next):
-    """It just logs requests for the sake of keeping track of the general performance results"""
+    """It just logs the requests for the sake of keeping track of the general performance metrics"""
 
     start_time = time.perf_counter()
     try:
