@@ -1,4 +1,6 @@
+from typing import Sequence, TypedDict
 from pydantic.dataclasses import dataclass
+from app.models.pasted import Pasted
 
 
 @dataclass
@@ -18,3 +20,11 @@ class APIBranding():
     support_email: str
     app_description: str
     privacy_policy: str
+
+
+class PastedPublicDict(TypedDict):
+    items: Sequence[Pasted]
+    total_items: int
+    current_page: int
+    page_size: int
+    total_pages: int

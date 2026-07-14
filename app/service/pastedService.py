@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta, timezone
+import math
 from typing import Annotated
 from fastapi import Depends, HTTPException
-from sqlmodel import Session, select
+from sqlmodel import Session, col, func, select
 
 from app import db
 from app.models.pasted import Duration, Pasted, PastedCreate, PastedExpiryDuration
+from app.schemas.management import PastedPublicDict
 from app.service.exceptions import ServiceError
 from app.utils import utils
 
@@ -12,6 +14,35 @@ from app.utils import utils
 class PastedService:
     def __init__(self, session: Session):
         self.db = session
+
+    def get_pastes(self, page: int, page_size: int) -> PastedPublicDict:
+        """Returns all the pastes(paginated), the client needs to be compatible with its server-side pagination."""
+        # First, the total number of records.
+        total_statement = select(func.count(col(Pasted.id)))
+        total = self.db.exec(total_statement).one()
+
+
+        # Second, consolicate the data and return the client.
+        offset_amount = (page - 1) * page_size
+
+        statement = (
+        select(Pasted)
+        .order_by(col(Pasted.created_at).desc())
+        .offset(offset_amount)
+        .limit(page_size)
+        )
+
+        result = self.db.exec(statement)
+
+        pastes = result.all()
+
+        return {
+            "items": pastes,
+            "total_items": total,
+            "current_page": page,
+            "page_size": page_size,
+            "total_pages": math.ceil(total / page_size), 
+        }
 
     def delete_pasted(self, pasted_id: int):
         """Soft deletes a paste row."""
