@@ -75,6 +75,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 	catch (error) {
 		ok = false
 		const err = error as APIError
+		useToast(`${err.statusText}`,'error')
 	}
 	if (ok) {
 		router.push("admin")
