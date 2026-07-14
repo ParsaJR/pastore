@@ -1,5 +1,5 @@
 <template>
-    <header class="h-auto flex px-6 py-3 sm:hidden w-full items-center justify-between bg-primary">
+    <header class="h-auto flex px-6 py-3 sm:hidden w-full items-center justify-between bg-sidebar border-b-2 border-muted">
         <div>
             <a href="#">
                 <img class="h-8 w-auto text-left" src="../assets/logo.svg" width="120" height="120">

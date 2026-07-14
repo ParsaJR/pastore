@@ -1,5 +1,5 @@
 import { createApiClient } from "@/apiClient/client"
-import type { APIBranding, APICapabilities, APIPastedResponse, APIToken, PostPastedPayload } from "@/types/ApiTypes"
+import type { APIBranding, APICapabilities, APIPastedResponse, APIAllPastesResponse, APIToken, PostPastedPayload } from "@/types/ApiTypes"
 
 
 // useAPI is a composable that knows how to interact with the pastore api.
@@ -54,10 +54,21 @@ export function useAPI() {
 
 		const response = api_client.get<APIPastedResponse>(url)
 
+
+		return response
+	}
+
+
+	async function getAllPastes(page: number = 1, per_page: number = 10): Promise<APIAllPastesResponse> {
+		const url = `/pastes/all?page=${page}&page_size=${per_page}`
+
+		const response = api_client.get<APIAllPastesResponse>(url)
+
+
 		return response
 	}
 
 
 
-  return { getToken, postPasted, getPasted, getApiCapabilities, getBranding }
+	return { getToken, postPasted, getPasted, getAllPastes, getApiCapabilities, getBranding }
 }

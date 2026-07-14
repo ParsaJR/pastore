@@ -46,7 +46,7 @@ const selectOptions = computed(() =>
                appStore.isSideBarVisible ? 'translate-x-0' : 'max-sm:translate-x-full sm:translate-x-0'"
  	    class="fixed top-0 right-0 z-40 h-screen w-[75%] sm:w-[35%]
             bg-[#f8fafc] transition-transform duration-200" aria-label="Sidebar">
-            <div class="h-full px-7 pt-12 pb-8 overflow-y-auto bg-[#f8fafc] flex flex-col items-center gap-3">
+            <div class="h-full px-7 pt-12 pb-8 overflow-y-auto bg-sidebar flex flex-col items-center gap-3">
                 <div
                     class="flex flex-col items-center justify-center px-2 py-1.5 text-body rounded-base hover:bg-neutral-tertiary hover:text-fg-brand group">
                     <img src="../assets/logo.svg" width="120" height="120">

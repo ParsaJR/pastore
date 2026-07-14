@@ -2,8 +2,15 @@
 @import "@nuxt/ui";
 @plugin "@tailwindcss/typography";
 
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 @theme {
+  --color-sidebar: #f8fafc;
   --text-primary: #000000;
   --color-btn-primary: #efeff3;
   --color-code-primary: #000000;
