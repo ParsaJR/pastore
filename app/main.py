@@ -25,9 +25,8 @@ async def lifespan(app: FastAPI):
     # db.create_db_and_tables()
     logs.setup_logger()
     test_engine_connectivity()
+    bootstrap.run()
 
-    if config.settings.run_startup_tasks:
-        bootstrap.run()
     yield
 
 

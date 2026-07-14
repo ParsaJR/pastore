@@ -1,5 +1,6 @@
 from fastapi import Depends
 from sqlmodel import Session, select
+from sqlalchemy.exc import IntegrityError
 from app import db
 from app.core import security
 from app.models.management import Admin, AdminCreate, Branding
@@ -95,22 +96,27 @@ class AdminService:
         return admin
 
     def create_admin(self, admin: AdminCreate) -> None:
-        try:
-            password = security.get_password_hash(admin.plain_password)
-            targetAdmin = Admin(
-                username=admin.username,
-                hashed_password=password,
-                disabled=False,
-                email=admin.email,
-                password_reset_required=True,  ## Always
-            )
 
-            self.db.add(targetAdmin)
+        # Hash the password.
+        password = security.get_password_hash(admin.plain_password)
+
+        ## The target admin that will inserted.
+        targetAdmin = Admin(
+            username=admin.username,
+            hashed_password=password,
+            disabled=False,
+            email=admin.email,
+            password_reset_required=True,  ## Always
+        )
+
+        self.db.add(targetAdmin)
+
+        try:
             self.db.commit()
 
-        except Exception as e:
+        except IntegrityError:
             self.db.rollback()
-            raise e
+            raise
 
     def change_password(
         self, username: str, current_password: str, new_password: str

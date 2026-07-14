@@ -40,7 +40,7 @@ class Settings(BaseSettings):
     app_name: str = "Pastore"
     development: bool = False # Is it in dev environment?
 
-    run_startup_tasks: bool = True
+    run_startup_tasks: bool = True 
     initial_admin_password: str | None = None
 
     ## Database related
