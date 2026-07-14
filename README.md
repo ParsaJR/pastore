@@ -19,17 +19,16 @@ Create a `docker-compose.yml` file with the following contents:
 
 ```yaml
 x-common-env: &common-env
-    PASTORE_JWT_SECRET: supersecret
-    PASTORE_INITIAL_ADMIN_PASSWORD=supersecret
+  PASTORE_JWT_SECRET: supersecret
+  PASTORE_INITIAL_ADMIN_PASSWORD: supersecret
 
-    PASTORE_DATABASE_HOST: db
-    PASTORE_DATABASE_NAME: &db_name pastore
-    PASTORE_DATABASE_PASSWORD: &db_password changeme
-    PASTORE_DATABASE_USERNAME: &db_user pastore
+  PASTORE_DATABASE_HOST: db
+  PASTORE_DATABASE_NAME: &db_name pastore
+  PASTORE_DATABASE_PASSWORD: &db_password changeme
+  PASTORE_DATABASE_USERNAME: &db_user pastore
+  PASTORE_LOG_STRUCTURED: true
+  PASTORE_LOG_LEVEL: debug
 
-	PASTORE_LOG_STRUCTURED=true #Optional
-	PASTORE_LOG_LEVEL=debug #Optional
-	
 
 services:
   db:
