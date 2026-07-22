@@ -60,10 +60,10 @@ export function useAPI() {
 
 
 	async function getAllPastes(page: number = 1, per_page: number = 10): Promise<APIAllPastesResponse> {
+		const token = localStorage.getItem("token")
 		const url = `/pastes/all?page=${page}&page_size=${per_page}`
 
-		const response = api_client.get<APIAllPastesResponse>(url)
-
+		const response = api_client.get<APIAllPastesResponse>(url, {Authorization: `Bearer ${token}`})
 
 		return response
 	}

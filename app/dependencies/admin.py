@@ -38,7 +38,8 @@ async def get_current_active_admin(
             detail="Reset your password, before doing anything else",
         )
 
-    admin = session.exec(select(Admin).where(Admin.email == sub)).first()
+    # Check if the username is actually exists.
+    admin = session.exec(select(Admin).where(Admin.username == sub)).first()
 
     if not admin:
         raise generic_exception

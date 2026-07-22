@@ -3,8 +3,11 @@ import { h, ref, resolveComponent, useTemplateRef, watch } from 'vue'
 import { getCoreRowModel, getPaginationRowModel, useVueTable } from '@tanstack/vue-table'
 import type { TableColumn } from '@nuxt/ui'
 import { useAPI } from '@/composables/api'
-import type { PasteSchema } from '@/types/ApiTypes'
+import { APIAllPastesResponse, type APIError, type PasteSchema } from '@/types/ApiTypes'
 import { useLanguageDetector, useShikiHighlighter } from '@/composables/language-detect'
+import { title } from 'process'
+
+const toast = useToast()
 
 const UButton = resolveComponent('UButton')
 
@@ -12,7 +15,13 @@ const UButton = resolveComponent('UButton')
 const content = ref("")
 const content_modal = ref("")
 
-const data = ref(await useAPI().getAllPastes(1, 10))
+const data = ref<APIAllPastesResponse>({
+    items: [],
+    total_items: 0,
+    total_pages: 0,
+    current_page: 1,
+    page_size: 10,
+})
 
  watch(() => content.value, async () => {
      const lang = useLanguageDetector(content.value)
@@ -91,7 +100,7 @@ const columns: TableColumn<PasteSchema>[] = [
         cell: ({row}) => {
             return h(UButton, {
                 color: 'primary',
-                veriant: 'subtle',
+                variant: 'subtle',
                 icon: 'lucide:file-code-corner',
                 label: 'Content',
                 onClick: () => {
@@ -112,13 +121,23 @@ const pagination = ref({
 watch(
   pagination,
   async () => {
-    console.log("page changed", pagination.value)
-    data.value = await useAPI().getAllPastes(
-      pagination.value.pageIndex + 1,
-      pagination.value.pageSize
-    )
+      try {
+          data.value = await useAPI().getAllPastes(
+              pagination.value.pageIndex + 1,
+              pagination.value.pageSize
+          )
+      }
+      catch (err) {
+          const error = err as APIError
+          toast.add(
+              {
+                  title: error.statusText,
+                  color: "error"
+              }
+          )
+      }
   },
-  { deep: true }
+  { deep: true, immediate: true }
 )
 const globalFilter = ref('')
 

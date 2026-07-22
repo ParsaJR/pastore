@@ -42,7 +42,7 @@ type Schema = v.InferOutput<typeof schema>
 const fields = ref<AuthFormField[]>([{
 	name: 'username',
 	type: 'text',
-	label: 'Email',
+	label: 'Username',
 	placeholder: 'Enter your username',
 	required: true,
 	defaultValue: '',

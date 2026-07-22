@@ -10,6 +10,7 @@ router = APIRouter(
 
 @router.get("/pastes/all", status_code=200)
 async def get_all_pastes(
+        admin: ProtectedRouteDep,
         pasted_service: PastedServiceDep,
         page: int = Query(1, ge=1),
         page_size: int = Query(10,ge=1),
