@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Envelope from '@/components/icons/EnvelopeIcon.vue';
 import Github from '@/components/icons/GithubIcon.vue';
-import RefreshIcon from '@/components/icons/GithubIcon.vue';
+import RefreshIcon from '@/components/icons/RefreshIcon.vue';
 import SaveIcon from '@/components/icons/SaveIcon.vue';
 import ForkIcon from '@/components/icons/ForkIcon.vue';
 import PButton from '@/components/PButton.vue';
