@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { h, ref, resolveComponent, useTemplateRef, watch } from 'vue'
-import { getCoreRowModel, getPaginationRowModel, useVueTable } from '@tanstack/vue-table'
+import { h, ref, resolveComponent, watch } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
 import { useAPI } from '@/composables/api'
-import { APIAllPastesResponse, type APIError, type PasteSchema } from '@/types/ApiTypes'
+import { type APIAllPastesResponse, type APIError, type PasteSchema } from '@/types/ApiTypes'
 import { useLanguageDetector, useShikiHighlighter } from '@/composables/language-detect'
-import { title } from 'process'
 
 const toast = useToast()
 
@@ -161,7 +159,7 @@ const globalFilter = ref('')
         </UModal>
         <div class="flex justify-end border-t border-default pt-4 px-4">
             <UPagination :page="pagination.pageIndex + 1" :items-per-page="pagination.pageSize"
-                :total="data.total_items" @update:page="page => pagination.pageIndex = page - 1" />
+                :total="data.total_items" @update:page="(page:number) => pagination.pageIndex = page - 1" />
         </div>
     </div>
 
