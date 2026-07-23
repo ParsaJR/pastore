@@ -6,7 +6,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useAPI } from '../composables/api';
 import { useAppStore } from '../stores/appStore'
 import { useFormStore } from '../stores/formStore';
-import { useToast } from '../composables/toast';
+import { useToastLocal } from '../composables/toast';
 import type { APIError } from '../types/ApiTypes';
 import { VueSpinner } from 'vue3-spinners'
 import RightSidebar from '@/views/RightSidebarView.vue';
@@ -75,11 +75,11 @@ watch(
 
 async function save() {
 	if (!formState.code) {
-		useToast("An empty text, cannot be saved.", 'info')
+		useToastLocal("An empty text, cannot be saved.", 'info')
 		return
 	}
 	if (!formState.duration) {
-	    useToast("Please select an expiry duration.", 'info')
+	    useToastLocal("Please select an expiry duration.", 'info')
 	    return
 	}
 
@@ -99,12 +99,12 @@ async function save() {
 		}
 		catch (error) {
 			const err = error as APIError
-			useToast(err.detail, 'error')
+			useToastLocal(err.detail, 'error')
 		}
 
 	}
 	else {
-		useToast("Fill the required fields", 'error')
+		useToastLocal("Fill the required fields", 'error')
 	}
 }
 </script>
