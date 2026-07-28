@@ -65,14 +65,14 @@ class AdminPasswordChange(BaseModel):
 ###################
 # Branding models #
 ###################
-
-# Branding table contains a single row that has a metadata for the website e.g., The app_name, support/owner's mail, privacy_policy
 class BrandingBase(SQLModel):
     app_name: str
     support_email: EmailStr
     app_description: str
     privacy_policy: str
+    message_of_the_day: str | None
 
+# Branding table contains a single row that has a metadata for the website e.g., The app_name, support/owner's mail, privacy_policy
 class Branding(BrandingBase, table=True):
     __tablename__ = "branding"  # pyright: ignore[reportAssignmentType]
 

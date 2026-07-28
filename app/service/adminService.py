@@ -3,9 +3,9 @@ from sqlmodel import Session, select
 from sqlalchemy.exc import IntegrityError
 from app import db
 from app.core import security
-from app.models.management import Admin, AdminCreate, Branding
+from app.models.management import Admin, AdminCreate, Branding, BrandingBase
 from app.models.pasted import PastedExpiryDuration
-from app.schemas.management import APIBranding, APICapabilities, ExpiryDuration
+from app.schemas.management import APICapabilities, ExpiryDuration
 from app.service.exceptions import AuthorizationError,AuthenticationError, ServiceError
 
 
@@ -33,7 +33,7 @@ class AdminService:
 
         return APICapabilities(expiry_durations=expiry_durations)
 
-    def get_branding(self) -> APIBranding:
+    def get_branding(self) -> BrandingBase:
         statement = select(Branding)
 
         branding = self.db.exec(statement).first()
@@ -41,18 +41,19 @@ class AdminService:
         if not branding:
             raise ServiceError("Branding not found!")
 
-        result: APIBranding = APIBranding(
+        result: BrandingBase = BrandingBase(
             app_name=branding.app_name,
             app_description=branding.app_description,
             support_email=branding.support_email,
             privacy_policy=branding.privacy_policy,
+            message_of_the_day=branding.message_of_the_day
         )
 
 
         return result
 
 
-    def update_branding(self, b: APIBranding):
+    def put_branding(self, b: BrandingBase):
         statement = select(Branding)
 
         branding = self.db.exec(statement).first()
@@ -63,6 +64,7 @@ class AdminService:
         branding.app_name = b.app_name
         branding.privacy_policy = b.privacy_policy
         branding.support_email = b.support_email
+        branding.meessage_of_the_day = b.message_of_the_day
 
         self.db.add(branding)
         self.db.commit()

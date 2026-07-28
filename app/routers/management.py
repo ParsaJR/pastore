@@ -25,6 +25,17 @@ def branding(admin_service: AdminServiceDep, response: Response):
 
     return branding
 
+
+@router.put("/branding", status_code=201)
+async def put_branding(
+        admin_service: AdminServiceDep, admin: ProtectedRouteDep,  b: BrandingBase
+):
+    admin_service.put_branding(b)
+
+
+
+
+
 @router.delete("/pastes/{pasted_id}", status_code=204)
 async def DeletePasted(
     pasted_id: int, pasted_service: PastedServiceDep, admin: ProtectedRouteDep
@@ -32,6 +43,7 @@ async def DeletePasted(
     pasted = pasted_service.delete_pasted(pasted_id)
     if not pasted:
         raise HTTPException(status_code=404, detail="Paste not found.")
+
 
 
 @router.post("/change-password", status_code=204)
