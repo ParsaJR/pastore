@@ -4,7 +4,7 @@ A pastebin service that you actually own.
 
 ## (Non-)Features
 
-- A good looking web client, powered by [Vue.JS](https://vuejs.org)
+- A good looking web client, powered by [Vue.JS](https://vuejs.org) & [Nuxt UI](https://ui.nuxt.com/)
 - Beautiful syntax highlighting, powered by [Shiki](https://shiki.style/)
 - A language detector that is good enough, powered by [Flourite](https://github.com/teknologi-umum/flourite) 
 - Administration capabilities
