@@ -74,7 +74,7 @@ watch(
 
 
 async function save() {
-	if (!formState.code) {
+	if (!formState.code.trim()) {
 		useToastLocal("An empty text, cannot be saved.", 'info')
 		return
 	}
