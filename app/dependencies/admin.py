@@ -30,13 +30,13 @@ async def get_current_active_admin(
     if not sub:
         raise generic_exception
 
-    password_change_required = payload.get("password_change_required")
+    # password_change_required = payload.get("password_change_required")
 
-    if password_change_required:
-        raise HTTPException(
-            status_code=403,  # 403 means, "i know who you are, but ..."
-            detail="Reset your password, before doing anything else",
-        )
+    # if password_change_required:
+    #     raise HTTPException(
+    #         status_code=403,  # 403 means, "i know who you are, but ..."
+    #         detail="Reset your password, before doing anything else",
+    #     )
 
     # Check if the username is actually exists.
     admin = session.exec(select(Admin).where(Admin.username == sub)).first()
