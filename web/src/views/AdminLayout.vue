@@ -1,32 +1,43 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { NavigationMenuItem, SidebarProps } from '@nuxt/ui'
+import { useMediaQuery } from '@vueuse/core';
 
 const open = ref(true)
 
 // Ignore the props for the example
 defineProps<Pick<SidebarProps, 'variant' | 'side'>>()
 
+const isMobile = useMediaQuery('(max-width: 500px)')
+
 const items: NavigationMenuItem[] = [
     {
         label: 'Overview',
         icon: 'i-lucide-house',
-        to: "/admin",
+        to: '/admin',
         exact: true
     },
     {
         label: 'Branding',
         icon: 'lucide:pencil-ruler',
-        to: "/admin/branding",
-        exect: true,
+        to: '/admin/branding',
+        exact: true
     },
     {
         label: 'Pastes',
         icon: 'i-lucide-file-code',
-        to: "/admin/pastes",
+        to: '/admin/pastes',
         exact: true
-    },
-]
+    }
+].map(item => ({
+    ...item,
+    onSelect: () => {
+        if (isMobile.value) {
+            open.value = false
+        }
+    }
+ }))
+
 </script>
 
 <template>
