@@ -15,16 +15,17 @@ const items: NavigationMenuItem[] = [
         exact: true
     },
     {
+        label: 'Branding',
+        icon: 'lucide:pencil-ruler',
+        to: "/admin/branding",
+        exect: true,
+    },
+    {
         label: 'Pastes',
         icon: 'i-lucide-file-code',
-        badge: '4',
         to: "/admin/pastes",
         exact: true
     },
-    // {
-    //   label: 'Branding',
-    //   icon: 'i-lucide-users'
-    // }
 ]
 </script>
 

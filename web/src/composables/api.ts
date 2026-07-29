@@ -36,6 +36,13 @@ export function useAPI() {
 
 	}
 
+	async function putBranding(payload: APIBranding): Promise<void> {
+		const token = localStorage.getItem("token")
+
+		const url = `/management/branding`
+		api_client.put(url, JSON.stringify(payload),{Authorization: `Bearer ${token}`})
+	}
+
 
 	async function postPasted(payload: PostPastedPayload): Promise<APIPastedResponse> {
 
@@ -70,5 +77,5 @@ export function useAPI() {
 
 
 
-	return { getToken, postPasted, getPasted, getAllPastes, getApiCapabilities, getBranding }
+	return { getToken, postPasted, getPasted, getAllPastes, getApiCapabilities, getBranding, putBranding}
 }

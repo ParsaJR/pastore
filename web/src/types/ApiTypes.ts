@@ -29,6 +29,7 @@ export type APIBranding = {
   support_email: string,
   app_description: string,
   privacy_policy: string,
+  message_of_the_day: string,
 }
 
 export type PostPastedPayload = {

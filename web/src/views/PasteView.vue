@@ -36,10 +36,10 @@ const code = defineModel<string>('code')
 <template>
 	<div class="font-mono text-sm h-auto">
 		<div v-if="appState.isViewMode" v-html="highlighted"
-			class="h-full w-full resize-none outline-none overflow-auto" placeholder="fmt.Println(&Equal;)"></div>
+			class="h-full w-full resize-none outline-none overflow-auto"></div>
 
-		<textarea v-else v-model="code" name="code" class="h-full w-full text-code-primary resize-none overflow-auto outline-none"
-			:placeholder=userWelcomeText></textarea>
+		<textarea v-else v-model="code" name="code" autocomplete="off" class="h-full w-full text-code-primary resize-none overflow-auto outline-none"
+			:placeholder=appState.serviceMotd></textarea>
 	</div>
 </template>
 

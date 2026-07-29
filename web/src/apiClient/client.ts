@@ -1,8 +1,7 @@
 import type {APIError} from "@/types/ApiTypes"
 
-type HTTPMethod =
-  | 'GET'
-  | 'POST'
+type HTTPMethod = 'GET' | 'POST' | 'PUT'
+
 
 type RequestOptions = {
   method: HTTPMethod,
@@ -58,6 +57,17 @@ export function createApiClient(apiOptions: ApiClientOptions) {
     post<T>(url: string, body: BodyInit, headers?: HeadersInit) {
       return request<T>(apiOptions.baseUrl + url, {
         method: "POST",
+        headers: {
+	  "Content-Type": "application/json",
+	  ...headers
+	},
+        body: body,
+      });
+    },
+
+    put<T>(url: string, body: BodyInit, headers?: HeadersInit) {
+      return request<T>(apiOptions.baseUrl + url, {
+        method: "PUT",
         headers: {
 	  "Content-Type": "application/json",
 	  ...headers

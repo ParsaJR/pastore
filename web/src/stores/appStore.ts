@@ -6,6 +6,7 @@ interface IAppState {
   serviceName: string,
   serviceDescription: string,
   serviceSupportEmail: string,
+  serviceMotd: string,
   privacy_policy: string,
   isViewMode: boolean,
   isSideBarVisible: boolean,
@@ -16,6 +17,7 @@ export const useAppStore = defineStore('app', {
     serviceName: "Javan's Pastebin",
     serviceDescription: "A generic pastebin service",
     serviceSupportEmail: "hi@example.com",
+    serviceMotd: "Code goes here.",
     privacy_policy: "",
     isViewMode: false,
     isSideBarVisible: false,
@@ -36,6 +38,7 @@ export const useAppStore = defineStore('app', {
     async populateBranding(branding: APIBranding) {
       this.serviceName = branding.app_name
       this.serviceDescription = branding.app_description
+      this.serviceMotd = branding.message_of_the_day
       this.privacy_policy = await marked.parse(branding.privacy_policy)
     },
   }
