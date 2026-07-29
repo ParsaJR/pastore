@@ -64,7 +64,7 @@ class AdminService:
         branding.app_name = b.app_name
         branding.privacy_policy = b.privacy_policy
         branding.support_email = b.support_email
-        branding.meessage_of_the_day = b.message_of_the_day
+        branding.message_of_the_day = b.message_of_the_day
 
         self.db.add(branding)
         self.db.commit()
