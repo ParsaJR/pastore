@@ -67,7 +67,7 @@ const items: NavigationMenuItem[] = [
                     <!-- According to the docs, The timeout=0 here, tells the suspense to show the fallback content immediately.
                     https://vuejs.org/guide/built-ins/suspense.html#loading-state
  -->
-                    <Suspense timeout="0" @pending="onPending" @resolve="onResolve" @fallback="onFallback">
+                    <Suspense timeout="0">
                         <component :is="Component" />
 
                         <template #fallback>
