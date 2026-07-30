@@ -7,6 +7,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 
+
 const router = useRouter()
 
 // There is any browser that doesn't have/support localstorage? Let's use this 
@@ -59,11 +60,9 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 		username: payload.data.username,
 		password: payload.data.password,
 	})
-
-	let ok = true
 	const token = await handleWithToast(() => useAPI().getToken(data))
 	if (!token) {
-		ok = false
+		return
 	}
 	if (!LocalStorageAvailable()) {
 		useToastLocal("Sorry. Your browser doesn't have a sane localStorage.", 'error')
@@ -71,9 +70,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 	}
 	localStorage.setItem("token", token.access_token);
 	useToastLocal("Welcome.", 'success')
-	if (ok) {
-		router.push("admin")
-	}
+	router.push("admin")
 }
 </script>
 
