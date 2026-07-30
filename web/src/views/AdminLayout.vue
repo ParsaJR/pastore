@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import type { NavigationMenuItem, SidebarProps } from '@nuxt/ui'
 import { useMediaQuery } from '@vueuse/core';
+import { VueSpinner } from 'vue3-spinners'
 
 const open = ref(true)
 
@@ -36,8 +37,7 @@ const items: NavigationMenuItem[] = [
             open.value = false
         }
     }
- }))
-
+}))
 </script>
 
 <template>
@@ -63,9 +63,20 @@ const items: NavigationMenuItem[] = [
             </div>
 
             <div class="flex-1 p-4 overflow-auto">
-                <Suspense>
-                    <RouterView></RouterView>
-                </Suspense>
+                <RouterView v-slot="{ Component }">
+                    <!-- According to the docs, The timeout=0 here, tells the suspense to show the fallback content immediately.
+                    https://vuejs.org/guide/built-ins/suspense.html#loading-state
+ -->
+                    <Suspense timeout="0" @pending="onPending" @resolve="onResolve" @fallback="onFallback">
+                        <component :is="Component" />
+
+                        <template #fallback>
+                            <div class="flex flex-1 justify-center items-center">
+                                <VueSpinner size="50" color="green" />
+                            </div>
+                        </template>
+                    </Suspense>
+                </RouterView>
             </div>
         </div>
     </div>
