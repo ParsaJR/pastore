@@ -1,6 +1,27 @@
 import { createApiClient } from "@/apiClient/client"
-import type { APIBranding, APICapabilities, APIPastedResponse, APIAllPastesResponse, APIToken, PostPastedPayload } from "@/types/ApiTypes"
+import type { APIBranding, APICapabilities, APIPastedResponse, APIAllPastesResponse, APIToken, PostPastedPayload, APIError } from "@/types/ApiTypes"
 
+type APICallback<T> = (...args: any[]) => Promise<T>
+
+export async function handleWithToast<T>(callback: APICallback<T>, successCallback?: () => void): Promise<T|undefined> {
+	try {
+		const result =  await callback()
+		successCallback?.()
+		return result
+	} catch (err) {
+		const error = err as APIError
+
+		useToast().add(
+			{
+				title: error.statusText,
+				description: error.detail,
+				color: "error",
+			}
+		)
+
+		return undefined
+	}
+}
 
 // useAPI is a composable that knows how to interact with the pastore api.
 export function useAPI() {
@@ -8,11 +29,11 @@ export function useAPI() {
 
 	function getToken(payload: URLSearchParams): Promise<APIToken> {
 
-	  const response = api_client.post<APIToken>("/token", payload, {
-	    "Content-Type": "application/x-www-form-urlencoded"
-	  })
+		const response = api_client.post<APIToken>("/token", payload, {
+			"Content-Type": "application/x-www-form-urlencoded"
+		})
 
-	  return response
+		return response
 
 	}
 
@@ -40,7 +61,7 @@ export function useAPI() {
 		const token = localStorage.getItem("token")
 
 		const url = `/management/branding`
-		api_client.put(url, JSON.stringify(payload),{Authorization: `Bearer ${token}`})
+		api_client.put(url, JSON.stringify(payload), { Authorization: `Bearer ${token}` })
 	}
 
 
@@ -70,12 +91,12 @@ export function useAPI() {
 		const token = localStorage.getItem("token")
 		const url = `/pastes/all?page=${page}&page_size=${per_page}`
 
-		const response = api_client.get<APIAllPastesResponse>(url, {Authorization: `Bearer ${token}`})
+		const response = api_client.get<APIAllPastesResponse>(url, { Authorization: `Bearer ${token}` })
 
 		return response
 	}
 
 
 
-	return { getToken, postPasted, getPasted, getAllPastes, getApiCapabilities, getBranding, putBranding}
+	return { getToken, postPasted, getPasted, getAllPastes, getApiCapabilities, getBranding, putBranding }
 }

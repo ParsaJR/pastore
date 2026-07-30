@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAPI } from '@/composables/api';
+import { handleWithToast, useAPI } from '@/composables/api';
 import type { APIBranding, APIError } from '@/types/ApiTypes';
 import type { FormSubmitEvent } from '@nuxt/ui';
 import * as v from 'valibot'
@@ -13,18 +13,10 @@ const state = ref<APIBranding>({
 	privacy_policy: '',
 })
 
+const branding = await handleWithToast(() => useAPI().getBranding())
 
-try {
-	state.value = await useAPI().getBranding()
-}
-catch (err) {
-	const error = err as APIError
-	useToast().add(
-		{
-			title: error.statusText,
-			color: "error"
-		}
-	)
+if (branding) {
+	state.value = branding
 }
 
 const schema = v.object({
@@ -36,28 +28,15 @@ const schema = v.object({
 })
 
 type Schema = v.InferOutput<typeof schema>
-
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-	try {
-		await useAPI().putBranding(state.value)
-		useToast().add(
-			{
-				title: "Succses",
-				description: "Branding has been upgraded",
-				color: "success"
-			}
-		)
-	}
-	catch (err) {
-		const error = err as APIError
-		useToast().add(
-			{
-				title: error.statusText,
-				description: error.detail,
-				color: "error"
-			}
-		)
-	}
+	handleWithToast(async () =>
+		await useAPI().putBranding(state.value),
+		() => {
+			useToast().add({
+				title: "Branding information has been successfully updated."
+			})
+		}
+	)
 }
 </script>
 

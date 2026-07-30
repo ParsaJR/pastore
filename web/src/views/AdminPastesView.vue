@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { h, ref, resolveComponent, watch } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
-import { useAPI } from '@/composables/api'
+import { handleWithToast, useAPI } from '@/composables/api'
 import { type APIAllPastesResponse, type APIError, type PasteSchema } from '@/types/ApiTypes'
 import { useLanguageDetector, useShikiHighlighter } from '@/composables/language-detect'
 
@@ -119,20 +119,13 @@ const pagination = ref({
 watch(
   pagination,
   async () => {
-      try {
-          data.value = await useAPI().getAllPastes(
-              pagination.value.pageIndex + 1,
-              pagination.value.pageSize
-          )
-      }
-      catch (err) {
-          const error = err as APIError
-          toast.add(
-              {
-                  title: error.statusText,
-                  color: "error"
-              }
-          )
+      const api_result = await handleWithToast(() => useAPI().getAllPastes(
+          pagination.value.pageIndex + 1,
+          pagination.value.pageSize
+      ))
+
+      if (api_result) {
+          data.value = api_result
       }
   },
   { deep: true, immediate: true }

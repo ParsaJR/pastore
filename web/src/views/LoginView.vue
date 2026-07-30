@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { useAPI } from '@/composables/api'
+import { useAPI, handleWithToast } from '@/composables/api'
 import { useToastLocal } from '@/composables/toast'
-import type { APIError } from '@/types/ApiTypes'
 import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui'
-import { sensitiveHeaders } from 'http2'
 import * as v from 'valibot'
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 
 const router = useRouter()
@@ -63,20 +61,16 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 	})
 
 	let ok = true
-	try {
-		const token = await useAPI().getToken(data)
-		if (!LocalStorageAvailable()) {
-			useToastLocal("Sorry. Your browser doesn't have a sane localStorage.", 'error')
-			return
-		}
-		localStorage.setItem("token", token.access_token);
-		useToastLocal("Welcome.", 'success')
-	}
-	catch (error) {
+	const token = await handleWithToast(() => useAPI().getToken(data))
+	if (!token) {
 		ok = false
-		const err = error as APIError
-		useToastLocal(`${err.statusText}`,'error')
 	}
+	if (!LocalStorageAvailable()) {
+		useToastLocal("Sorry. Your browser doesn't have a sane localStorage.", 'error')
+		return
+	}
+	localStorage.setItem("token", token.access_token);
+	useToastLocal("Welcome.", 'success')
 	if (ok) {
 		router.push("admin")
 	}
