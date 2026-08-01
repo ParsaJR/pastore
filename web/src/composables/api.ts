@@ -78,7 +78,7 @@ export function useAPI() {
 
 
 	async function getPasted(shortcode: string): Promise<APIPastedResponse> {
-		const url = `/pastes/?shortcode=${shortcode}`
+		const url = `/pastes?shortcode=${shortcode}`
 
 		const response = api_client.get<APIPastedResponse>(url)
 
