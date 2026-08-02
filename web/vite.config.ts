@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
@@ -28,5 +29,9 @@ export default defineConfig({
 	rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
-  }
+  },
+  test: {
+    environment: 'happy-dom',
+    globals: true,
+  },
 })
