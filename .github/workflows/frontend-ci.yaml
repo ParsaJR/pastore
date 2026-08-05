@@ -28,6 +28,7 @@ jobs:
         uses: pnpm/setup@v2
         with:
           runtime: node@${{ matrix.node-version }}
+          package-json-file: './web'
 
       - name: Run vitest tests
         run: pnpm test
