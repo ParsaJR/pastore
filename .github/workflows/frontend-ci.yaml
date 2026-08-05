@@ -1,4 +1,4 @@
-name: CI
+name: Frontend testing action
 
 on:
   push:
