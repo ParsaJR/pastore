@@ -23,7 +23,7 @@ jobs:
         uses: pnpm/setup@v2
         with:
           version: 11.8.0
-          runtime: node@{{ matrix.node-version }}
+          runtime: node@${{ matrix.node-version }}
 
       - name: Run vitest tests
         run: pnpm test
