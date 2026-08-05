@@ -1,6 +1,9 @@
 from fastapi import status
 from fastapi.testclient import TestClient
+import os
+os.environ["PASTORE_DEVELOPMENT"] = "True"
 from app import main
+
 
 def test_unsecured_metrics_endpoint_request(monkeypatch):
     """Metric endpoint shouldn't accessible without a legit basic-auth"""

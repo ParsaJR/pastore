@@ -3,6 +3,9 @@
 # It glues everything together ergonomically, thanks to powerful library
 # "pytest" and amazing testing capabelities provided by SQLModel and FastAPI
 
+import os
+os.environ["PASTORE_DEVELOPMENT"] = "True"
+
 from fastapi import status
 from sqlmodel import SQLModel, Session, StaticPool, create_engine, select
 import pytest
