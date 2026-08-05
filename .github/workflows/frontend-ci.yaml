@@ -29,6 +29,9 @@ jobs:
         with:
           runtime: node@${{ matrix.node-version }}
           package-json-file: './web/package.json'
+          install: false
 
+      - name: Run pnpm install
+        run: pnpm install
       - name: Run vitest tests
         run: pnpm test
