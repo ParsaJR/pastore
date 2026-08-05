@@ -1,4 +1,4 @@
-name: API CI
+name: Create Release
 
 on:
   push:
