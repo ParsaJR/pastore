@@ -2,7 +2,12 @@ name: Frontend testing action
 
 on:
   push:
+  #  paths: 
+  #    - 'web/**'
   pull_request:
+ #   paths: 'web/**'
+  
+
 
 jobs:
   build:
@@ -22,7 +27,6 @@ jobs:
       - name: setup Node and pnpm
         uses: pnpm/setup@v2
         with:
-          version: 11.8.0
           runtime: node@${{ matrix.node-version }}
 
       - name: Run vitest tests
