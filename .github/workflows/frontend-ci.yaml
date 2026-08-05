@@ -1,11 +1,12 @@
 name: Frontend testing action
 
 on:
+  workflow_dispatch: 
   push:
-  #  paths: 
-  #    - 'web/**'
+    paths: 
+      - 'web/**'
   pull_request:
- #   paths: 'web/**'
+     paths: 'web/**'
   
 
 
