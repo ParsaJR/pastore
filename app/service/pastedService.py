@@ -6,8 +6,8 @@ from sqlmodel import Session, col, func, select
 
 from app import db
 from app.models.pasted import Duration, Pasted, PastedCreate, PastedExpiryDuration
+from app.observability.metrics import PASTES_CREATED
 from app.schemas.management import PastedPublicDict
-from app.service.exceptions import ServiceError
 from app.utils import utils
 
 
@@ -134,6 +134,9 @@ class PastedService:
         self.db.add(db_paste)
         self.db.commit()
         self.db.refresh(db_paste)
+
+        # Increment the related metric
+        PASTES_CREATED.inc()
 
         return db_paste
 

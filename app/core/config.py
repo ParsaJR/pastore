@@ -1,4 +1,5 @@
 from enum import Enum
+import secrets
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -43,6 +44,13 @@ class Settings(BaseSettings):
     run_startup_tasks: bool = True 
     initial_admin_password: str | None = None
 
+
+    ## Prometheus metrics endpoint
+
+    Metrics_Enabled: bool = False
+    Metrics_Username: str = "" # related to the metrics's basic-auth.
+    Metrics_Password: str = ""
+
     ## Database related
     Database_Host: str = "localhost"
     Database_Port: int = 5432  # Postgres uses 5432 by default, for active listen port.
@@ -51,7 +59,7 @@ class Settings(BaseSettings):
     Database_Name: str = "pasted"
 
     ## JWT Issues
-    JWT_Secret: str
+    JWT_Secret: str = secrets.token_urlsafe(64)
     JWT_TTL: int = 604_800
 
     ## Logs

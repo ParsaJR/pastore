@@ -1,6 +1,6 @@
 ## Pastore
 
-A pastebin service that you actually own.
+A pastebin service that you can actually own.
 
 ## (Non-)Features
 
@@ -26,8 +26,13 @@ x-common-env: &common-env
   PASTORE_DATABASE_NAME: &db_name pastore
   PASTORE_DATABASE_PASSWORD: &db_password changeme
   PASTORE_DATABASE_USERNAME: &db_user pastore
+
   PASTORE_LOG_STRUCTURED: true
   PASTORE_LOG_LEVEL: debug
+
+  PASTORE_Metrics_Enabled: bool = True
+  PASTORE_Metrics_Username: str = "pastore" 
+  PASTORE_Metrics_Password: str = "secret"
 
 
 services:
