@@ -1,6 +1,7 @@
 ## Pastore
 
 A pastebin service that you can actually own. 
+
 Scroll down the README for some [pretty gifs](#animated_gifs)
 
 ## (Non-)Features
