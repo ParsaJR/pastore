@@ -30,9 +30,9 @@ x-common-env: &common-env
   PASTORE_LOG_STRUCTURED: true
   PASTORE_LOG_LEVEL: debug
 
-  PASTORE_Metrics_Enabled: bool = True
-  PASTORE_Metrics_Username: str = "pastore" 
-  PASTORE_Metrics_Password: str = "secret"
+  PASTORE_Metrics_Enabled = True
+  PASTORE_Metrics_Username = "pastore"
+  PASTORE_Metrics_Password = "secret"
 
 
 services:
