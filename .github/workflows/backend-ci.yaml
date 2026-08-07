@@ -3,10 +3,10 @@ name: FastAPI testing action
 on:
   workflow_dispatch: 
   push:
-    #paths: 
-    #  - 'web/**'
+    paths: 
+      - 'app/**'
   pull_request:
-    # paths: 'web/**'
+     paths: 'app/**'
   
 
 
