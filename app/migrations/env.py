@@ -27,7 +27,7 @@ url_object = url_object.render_as_string(hide_password=False)
 
 url = config.get_main_option("sqlalchemy.url")
 if not url:
-    config.set_main_option("sqlalchemy.url", url_object)
+    config.set_main_option("sqlalchemy.url", url_object.replace("%","%%"))
 
 
 # Interpret the config file for Python logging.
