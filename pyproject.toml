@@ -48,7 +48,7 @@ dependencies = [
     "platformdirs",
     "pluggy",
     "prometheus-client>=0.26.0",
-    "psycopg2",
+    "psycopg[binary]>=3.3.4",
     "pwdlib",
     "pycparser",
     "pydantic",

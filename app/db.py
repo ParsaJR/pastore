@@ -3,7 +3,7 @@ from sqlalchemy.engine import URL
 from app.core import config, logs
 
 url_object = URL.create(
-    "postgresql",
+    "postgresql+psycopg",
     config.settings.Database_Username,
     config.settings.Database_Password,
     config.settings.Database_Host,

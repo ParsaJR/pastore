@@ -15,7 +15,7 @@ from app.core import config as settings
 config = context.config
 
 url_object = URL.create(
-    "postgresql",
+    "postgresql+psycopg",
     settings.settings.Database_Username,
     settings.settings.Database_Password,
     settings.settings.Database_Host,
