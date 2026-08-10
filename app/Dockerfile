@@ -45,7 +45,7 @@ COPY pyproject.toml uv.lock ./
 # System dependencies for psycopg2 package. Such a weird design by the author.
 # I need to to everything in one overlay so the image size will be more optimal..
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc libpq-dev \
+    && apt-get install -y gcc libpq-dev \
     && uv sync --frozen --no-dev \
     && apt-get purge -y gcc libpq-dev \
     && apt-get autoremove -y \
