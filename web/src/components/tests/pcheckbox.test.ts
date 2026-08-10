@@ -11,7 +11,7 @@ const checked = ref(false)
 const wrapper = mount(PCheckbox, {
   props: {
     modelValue: checked.value,
-    "onUpdate:modelValue": (v) => checked.value = v
+    "onUpdate:modelValue": (v) => {checked.value = v ?? false}
   }
 })
 
