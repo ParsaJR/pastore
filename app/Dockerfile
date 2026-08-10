@@ -3,6 +3,7 @@
 #############################################
 ARG NODE_VERSION=22.22.0-alpine
 ARG NGINX_VERSION=alpine3.23
+ARG UV_VERSION=0.11
 
 FROM node:${NODE_VERSION} AS frontend
 
@@ -28,10 +29,12 @@ RUN pnpm run build
 # ############################################### #
 #  Stage two. The combination of FastAPI & Vue  #
 ###################################################
+
+FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
+
 FROM python:3.14-slim
 
-## Installing uv
-COPY --from=ghcr.io/astral-sh/uv:0.11.15 /uv /uvx /bin/
+COPY --from=uv /uv /uvx /bin/
 
 WORKDIR /app
 
@@ -44,9 +47,11 @@ COPY pyproject.toml uv.lock ./
 # I need to to everything in one overlay so the image size will be more optimal..
 RUN apt-get update && apt-get install -y \
     gcc \
-    libpq-dev \
-    && uv sync --frozen --no-dev \
-    && apt-get purge -y gcc \
+    libpq-dev
+
+RUN uv sync --frozen --no-dev
+
+RUN apt-get purge -y gcc \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
