@@ -29,10 +29,10 @@ x-common-env: &common-env
   PASTORE_DATABASE_PASSWORD: &db_password changeme
   PASTORE_DATABASE_USERNAME: &db_user pastore
 
-  PASTORE_LOG_STRUCTURED: true
-  PASTORE_LOG_LEVEL: debug
+  PASTORE_LOG_STRUCTURED: False
+  PASTORE_LOG_LEVEL: info
 
-  PASTORE_Metrics_Enabled: True
+  PASTORE_Metrics_Enabled: False
   PASTORE_Metrics_Username: "pastore"
   PASTORE_Metrics_Password: "secret"
 
