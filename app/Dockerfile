@@ -29,7 +29,6 @@ RUN pnpm run build
 # ############################################### #
 #  Stage two. The combination of FastAPI & Vue  #
 ###################################################
-
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
 
 FROM python:3.14-slim
@@ -45,13 +44,10 @@ COPY pyproject.toml uv.lock ./
 
 # System dependencies for psycopg2 package. Such a weird design by the author.
 # I need to to everything in one overlay so the image size will be more optimal..
-RUN apt-get update && apt-get install -y \
-    gcc \
-    libpq-dev
-
-RUN uv sync --frozen --no-dev
-
-RUN apt-get purge -y gcc \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends gcc libpq-dev \
+    && uv sync --frozen --no-dev \
+    && apt-get purge -y gcc libpq-dev \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
