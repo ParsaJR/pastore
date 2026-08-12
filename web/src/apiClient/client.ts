@@ -1,6 +1,6 @@
 import type {APIError} from "@/types/ApiTypes"
 
-type HTTPMethod = 'GET' | 'POST' | 'PUT'
+type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
 
 type RequestOptions = {
@@ -23,8 +23,13 @@ async function request<T>(url: string, options: RequestOptions): Promise<T> {
       throw res
     }
 
-    const res = await response.json() as T
-    return res
+    const text = await response.text()
+
+    if (!text) {
+      return undefined as T
+    }
+
+    return JSON.parse(text) as T
   }
 
   // Catch, catches only the network related failures. It is Not executed when http response has been arrived.
@@ -73,6 +78,20 @@ export function createApiClient(apiOptions: ApiClientOptions) {
 	  ...headers
 	},
         body: body,
+      });
+    },
+
+    delete<T>(url: string, options?: {
+      body?: BodyInit,
+      headers?: HeadersInit,
+    }) {
+      return request<T>(apiOptions.baseUrl + url, {
+        method: "DELETE",
+        headers: {
+	  "Content-Type": "application/json",
+	  ...options?.headers
+	},
+        body: options?.body,
       });
     },
   };

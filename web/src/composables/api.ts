@@ -3,9 +3,9 @@ import type { APIBranding, APICapabilities, APIPastedResponse, APIAllPastesRespo
 
 type APICallback<T> = (...args: any[]) => Promise<T>
 
-export async function handleWithToast<T>(callback: APICallback<T>, successCallback?: () => void): Promise<T|undefined> {
+export async function handleWithToast<T>(callback: APICallback<T>, successCallback?: () => void): Promise<T | undefined> {
 	try {
-		const result =  await callback()
+		const result = await callback()
 		successCallback?.()
 		return result
 	} catch (err) {
@@ -35,6 +35,27 @@ export function useAPI() {
 
 		return response
 
+	}
+
+	async function softDeletePaste(id: number): Promise<void> {
+		const token = localStorage.getItem("token")
+		const url = `/management/pastes/${id}`
+
+		api_client.delete(url, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		})
+	}
+
+
+	async function restorePaste(id: number): Promise<void> {
+		const token = localStorage.getItem("token")
+		const url = `/management/pastes/restore/${id}`
+
+		api_client.get(url, {
+				Authorization: `Bearer ${token}`
+		})
 	}
 
 	function getApiCapabilities(): Promise<APICapabilities> {
@@ -97,6 +118,5 @@ export function useAPI() {
 	}
 
 
-
-	return { getToken, postPasted, getPasted, getAllPastes, getApiCapabilities, getBranding, putBranding }
+	return { getToken, postPasted, getPasted, getAllPastes, softDeletePaste, restorePaste, getApiCapabilities, getBranding, putBranding }
 }

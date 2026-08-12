@@ -44,7 +44,7 @@ class PastedService:
             "total_pages": math.ceil(total / page_size), 
         }
 
-    def delete_pasted(self, pasted_id: int):
+    def delete_paste_by_id(self, pasted_id: int):
         """Soft deletes a paste row."""
         statement = select(Pasted).where(Pasted.id == pasted_id)
         pasted = self.db.exec(statement).first()
@@ -53,6 +53,22 @@ class PastedService:
             return None
 
         pasted.is_deleted = True
+        self.db.add(pasted)
+        self.db.commit()
+        self.db.refresh(pasted)
+
+        return pasted
+
+
+    def restore_paste_by_id(self, pasted_id: int):
+        """Restore a Soft deleted a paste."""
+        statement = select(Pasted).where(Pasted.id == pasted_id)
+        pasted = self.db.exec(statement).first()
+
+        if not pasted:
+            return None
+
+        pasted.is_deleted = False
         self.db.add(pasted)
         self.db.commit()
         self.db.refresh(pasted)
@@ -97,7 +113,7 @@ class PastedService:
         if pasted_item.duration == Duration.oneTime or pasted_item.is_one_time:
             if pasted_item.view_count >= 1:
                 assert pasted_item.id is not None
-                _ = self.delete_pasted(pasted_item.id)
+                _ = self.delete_paste_by_id(pasted_item.id)
                 return None
 
         pasted_item.view_count += 1

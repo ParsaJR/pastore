@@ -21,12 +21,12 @@ const data = ref<APIAllPastesResponse>({
     page_size: 10,
 })
 
- watch(() => content.value, async () => {
-     const lang = useLanguageDetector(content.value)
-     content_modal.value = await useShikiHighlighter(content.value, lang)
-     }
-     // Execute the watcher's callback immediately once, on the first creation of the component.
- , {immediate: true})
+watch(() => content.value, async () => {
+    const lang = useLanguageDetector(content.value)
+    content_modal.value = await useShikiHighlighter(content.value, lang)
+}
+    // Execute the watcher's callback immediately once, on the first creation of the component.
+    , { immediate: true })
 
 
 const content_modal_show = ref(false)
@@ -88,47 +88,79 @@ const columns: TableColumn<PasteSchema>[] = [
         header: 'view_count',
         meta: {
             class: {
-                th: 'text-right',
-                td: 'text-right font-medium'
+                th: 'text-center',
+                td: 'text-center font-medium'
+            }
+        },
+    },
+    {
+        accessorKey: 'is_deleted',
+        header: "Soft deleted?",
+        meta: {
+            class: {
+                th: 'text-center',
+                td: 'text-center font-medium'
             }
         },
     },
     {
         header: "Operations",
-        cell: ({row}) => {
-            return h(UButton, {
-                color: 'primary',
-                variant: 'subtle',
-                icon: 'lucide:file-code-corner',
-                label: 'Content',
-                onClick: () => {
-                    content.value = row.original.content
-                    content_modal_show.value = true
-                }
-            })
+        cell: ({ row }) => {
+            const isDeleted = row.getValue("is_deleted")
+
+            return h("div", { class: "flex gap-2" }, [
+                h(UButton, {
+                    color: "primary",
+                    variant: "subtle",
+                    icon: "lucide:file-code-corner",
+                    label: "Content",
+                    onClick: () => {
+                        content.value = row.original.content
+                        content_modal_show.value = true
+                    }
+                }),
+                h(UButton, {
+                    color: isDeleted ? "primary" : "error",
+                    variant: "subtle",
+                    icon: isDeleted ? "lucide:rotate-ccw" : "lucide:trash-2",
+                    label: isDeleted ? "Restore" : "Delete",
+                    onClick: async () => {
+                        const id = row.getValue("id") as number
+
+                        await handleWithToast(() => isDeleted ? useAPI().restorePaste(id)
+                            : useAPI().softDeletePaste(id))
+
+                        await FetchAndPopulate()
+
+                    }
+                })
+            ])
         }
     },
 ]
 
 const pagination = ref({
-  pageIndex: 0,
-  pageSize: 10
+    pageIndex: 0,
+    pageSize: 10
 })
 
+async function FetchAndPopulate() {
+    const api_result = await handleWithToast(() => useAPI().getAllPastes(
+        pagination.value.pageIndex + 1,
+        pagination.value.pageSize
+    ))
+
+    if (api_result) {
+        data.value = api_result
+    }
+}
 
 watch(
-  pagination,
-  async () => {
-      const api_result = await handleWithToast(() => useAPI().getAllPastes(
-          pagination.value.pageIndex + 1,
-          pagination.value.pageSize
-      ))
-
-      if (api_result) {
-          data.value = api_result
-      }
-  },
-  { deep: true, immediate: true }
+    pagination,
+    async () => {
+        await FetchAndPopulate()
+    },
+    { deep: true, immediate: true }
 )
 const globalFilter = ref('')
 
@@ -141,7 +173,7 @@ const globalFilter = ref('')
         </div>
 
         <UTable v-model:global-filter="globalFilter" v-model:pagination="pagination"
-            :pagination-options="{ manualPagination: true, rowCount: data.total_items, pageCount: data.total_pages}"
+            :pagination-options="{ manualPagination: true, rowCount: data.total_items, pageCount: data.total_pages }"
             :data="data.items" :columns="columns" class="flex-1" />
 
         <UModal fullscreen title="Content" v-model:open="content_modal_show">
@@ -152,7 +184,7 @@ const globalFilter = ref('')
         </UModal>
         <div class="flex justify-end border-t border-default pt-4 px-4">
             <UPagination :page="pagination.pageIndex + 1" :items-per-page="pagination.pageSize"
-                :total="data.total_items" @update:page="(page:number) => pagination.pageIndex = page - 1" />
+                :total="data.total_items" @update:page="(page: number) => pagination.pageIndex = page - 1" />
         </div>
     </div>
 
