@@ -16,7 +16,8 @@ import PrivacyPolicyIcon from '@/components/icons/PrivacyPolicyIcon.vue';
 const appStore = useAppStore()
 
 const more_info_open = ref(false)
-const MoreInfoDialog = () => {
+
+const openMoreInfoDialog = () => {
 	more_info_open.value = true
 }
 
@@ -91,7 +92,7 @@ const selectOptions = computed(() =>
                     Keep in mind that, all the information that you save here is possibly available to the
                     public.
 		    <span class="underline">
-			<button type="button" @click="MoreInfoDialog" class="underline hover:cursor-pointer">More
+			<button type="button" @click="openMoreInfoDialog" class="underline hover:cursor-pointer">More
 			    Info</button>
 		    </span>
                 </p>
@@ -102,7 +103,7 @@ const selectOptions = computed(() =>
                     <a :href="`mailto:${appStore.serviceSupportEmail}`" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
                         <Envelope />
                     </a>
-                    <a @click="privacy_modal_show = true" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
+                    <a @click="privacy_modal_show = true" v-if="appStore.privacy_policy.trim()" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
 			<PrivacyPolicyIcon />
                     </a>
                 </div>
