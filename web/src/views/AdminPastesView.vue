@@ -155,6 +155,7 @@ async function FetchAndPopulate() {
     }
 }
 
+// FetchAndPopulate, as a side-effect of pagination change.
 watch(
     pagination,
     async () => {
@@ -168,8 +169,9 @@ const globalFilter = ref('')
 
 <template>
     <div class="w-full space-y-4 pb-4">
-        <div class="flex px-4 py-3.5 border-b border-accented">
+        <div class="flex flex-row px-4 py-3.5 border-b justify-between border-accented">
             <UInput v-model="globalFilter" class="max-w-sm" placeholder="Filter..." />
+            <UButton @click="FetchAndPopulate()" class="max-w-sm" variant="subtle" icon="lucide:refresh-cw"></UButton>
         </div>
 
         <UTable v-model:global-filter="globalFilter" v-model:pagination="pagination"
