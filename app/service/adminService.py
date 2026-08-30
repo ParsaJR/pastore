@@ -89,7 +89,7 @@ class AdminService:
         if admin.disabled:
             raise AuthorizationError("Account disabled")
 
-        # check the password validiy.
+        # check the password validity.
         is_password_correct = security.verify_password(password, admin.hashed_password)
 
         if not is_password_correct:
