@@ -1,3 +1,5 @@
+# This module contains integration tests for the observability endpoint.
+
 from fastapi import status
 from fastapi.testclient import TestClient
 import os

@@ -1,5 +1,4 @@
-# integration Test for the entire service, plus it's http endpoint.
-
+# integration Test for the PastedService.
 # It glues everything together ergonomically, thanks to powerful library
 # "pytest" and amazing testing capabelities provided by SQLModel and FastAPI
 
@@ -16,20 +15,22 @@ from app.models.pasted import Pasted
 from app.models.pasted import PastedExpiryDuration
 
 
-
+# session_fixture yields a session that can be used for other tests.
 # Presumably, we're cheating a little bit by using sqlite instead of
 # postgresql. But it's better then nothing.
 @pytest.fixture(name="session")
 def session_fixture():
-    """Sets up the session for testing. Does the table creation."""
+    """Sets up the session for testing. Also Does the table creation."""
 
     # Using `StaticPool` will help us maintain a single in-memory database to
     # every test function.
     engine = create_engine(
         "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
     )
+    # Create the database schema
     SQLModel.metadata.create_all(engine)
 
+    # Add a sample expiry-duration.
     with Session(engine) as session:
         session.add(
             PastedExpiryDuration(
@@ -42,7 +43,6 @@ def session_fixture():
         session.commit()
 
         yield session
-
 
 @pytest.fixture(name="client")
 def client_fixture(session: Session):
