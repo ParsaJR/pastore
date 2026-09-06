@@ -8,8 +8,9 @@ Scroll down the README for some [pretty gifs](#animated_gifs)
 
 - A good looking web client, powered by [Vue.JS](https://vuejs.org) & [Nuxt UI](https://ui.nuxt.com/)
 - Beautiful syntax highlighting, powered by [Shiki](https://shiki.style/)
-- A language detector that is good enough, powered by [Flourite](https://github.com/teknologi-umum/flourite) 
+- Automatic language detecting powered by [Flourite](https://github.com/teknologi-umum/flourite) 
 - Administration capabilities
+- Opt-in caching, powered by [Redis.py](https://github.com/redis/redis-py)
 
 
 
@@ -29,12 +30,21 @@ x-common-env: &common-env
   PASTORE_DATABASE_PASSWORD: &db_password changeme
   PASTORE_DATABASE_USERNAME: &db_user pastore
 
+  # Optional
   PASTORE_LOG_STRUCTURED: False
   PASTORE_LOG_LEVEL: info
 
+  # Optional
   PASTORE_Metrics_Enabled: False
-  PASTORE_Metrics_Username: "pastore"
+  PASTORE_Metrics_Username: "pastore" 
   PASTORE_Metrics_Password: "secret"
+  
+  
+  # Optional
+  PASTORE_REDIS_ENABLED: False
+  PASTORE_REDIS_HOST: 127.0.0.1
+  PASTORE_REDIS_PORT: 6379
+  PASTORE_REDIS_PASSWORD: secret
 
 
 services:
@@ -91,6 +101,9 @@ It defines three services:
   database schema ready to consume for the api.
 
 - Api service which runs the Pastore api and hosts its frontend client.
+
+
+After that, your service is ready to be served at port 8080.
 
 <!-- > [!IMPORTANT] -->
 <!-- > As for now, You need to reverse proxy the api service under the location -->
