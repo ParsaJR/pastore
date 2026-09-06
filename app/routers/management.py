@@ -20,18 +20,28 @@ def api_capabilities(admin_service: AdminServiceDep, response: Response):
     return admin_service.get_api_capabilities()
 
 @router.get("/branding", response_model=BrandingBase, status_code=200)
-def branding(admin_service: AdminServiceDep, response: Response):
-    response.headers["Cache-Control"] = "public, max-age=86400"
+async def branding(admin_service: AdminServiceDep, cache: CacheDep):
+    cached = await cache.get("branding")
+    if cached:
+        return BrandingBase.model_validate_json(cached)
+
     branding = admin_service.get_branding()
+
+    await cache.set("branding",branding.model_dump_json(), ttl=3600)
 
     return branding
 
 
 @router.put("/branding", status_code=201)
 async def put_branding(
-        admin_service: AdminServiceDep, admin: ProtectedRouteDep,  b: BrandingBase
+        admin_service: AdminServiceDep,
+        admin: ProtectedRouteDep,
+        b: BrandingBase,
+        cache: CacheDep
 ):
     admin_service.put_branding(b)
+
+    await cache.delete("branding")
 
 
 
