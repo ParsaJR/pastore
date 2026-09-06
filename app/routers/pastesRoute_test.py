@@ -1,4 +1,4 @@
-# integration Test for the PastedService.
+# integration Test for the paste Route.
 
 # It gives us a confidence about most things that are involved in the paste retrival process:
 # 1. The endpoints, basically the http layer.
