@@ -9,13 +9,15 @@ from fastapi.exception_handlers import (
     request_validation_exception_handler,
 )
 from prometheus_client import disable_created_metrics, generate_latest, make_asgi_app
+from app.core.cache.cache_noOp import NoOPCache
+from app.core.cache.cache_redis import RedisCache
 from app.core.config import Settings
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core import logs
-from app.db import test_engine_connectivity
+from app.db import test_engine_connectivity, get_redis_client
 from app.observability.metrics import HTTP_REQUESTS_TOTAL, Metrics_Basic_Auth_ASGIMiddleware
 from app.routers import auth, management, pasted
 from asgi_correlation_id import CorrelationIdMiddleware, correlation_id
@@ -25,11 +27,21 @@ from app.scripts import bootstrap
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # db.create_db_and_tables()
+    redis_client = await get_redis_client()
+
+    if redis_client is None:
+        app.state.cache = NoOPCache()
+    else:
+        app.state.cache = RedisCache(redis_client)
+    
     logs.setup_logger()
     test_engine_connectivity()
     bootstrap.run()
 
     yield
+
+    if redis_client is not None:
+        await redis_client.aclose()
 
 
 def create_app():

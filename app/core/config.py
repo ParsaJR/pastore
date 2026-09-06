@@ -46,7 +46,6 @@ class Settings(BaseSettings):
 
 
     ## Prometheus metrics endpoint
-
     Metrics_Enabled: bool = False
     Metrics_Username: str = "" # related to the metrics's basic-auth.
     Metrics_Password: str = ""
@@ -57,6 +56,14 @@ class Settings(BaseSettings):
     Database_Password: str = "secret"
     Database_Username: str = "postgres"
     Database_Name: str = "pasted"
+
+    ## Redis cache is a optional dependency. Don't fill the env's and the app
+    ## just wont have caching capabilities.
+    Redis_Enabled: bool = False
+    Redis_Host: str = "localhost"
+    Redis_Port: int = 6379
+    Redis_Password: str = ""
+
 
     ## JWT Issues
     JWT_Secret: str = secrets.token_urlsafe(64)

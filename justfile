@@ -32,7 +32,6 @@ run-by-tmux:
 
 test-api:
 	uv run pytest
-	
 
 
 # Run the vue project
@@ -54,8 +53,10 @@ postgres_tag := "16-alpine"
 postgres_password := "secret"
 postgres_container_name := "pasted-postgres-dev"
 
+redis_container_name := "pasted-redis-dev"
 
-# Run a postgres database container using docker toolkit, respecting the default configuration of the FastAPI project(variables can be overridden)
+# Run a postgres database container using docker toolkit, respecting the default
+# configuration of the FastAPI project(variables can be overridden)
 [group('api')]
 setup-db:
 	@docker volume create pgdata
@@ -65,6 +66,14 @@ setup-db:
 		-e POSTGRES_PASSWORD={{postgres_password}} \
 		-p 127.0.0.1:5432:5432 \
 		postgres:16-alpine
+
+[group('api')]
+setup-redis:
+	@docker run -p 127.0.0.1:6379:6379 --name {{redis_container_name}} -d redis:8.8.2
+
+[group('api')]
+run-redis:
+	@docker start {{redis_container_name}}
 
 [group('api')]
 run-db:

@@ -1,4 +1,5 @@
 from app.dependencies.admin import ProtectedRouteDep
+from app.dependencies.database import CacheDep
 from app.models.management import AdminPasswordChange, BrandingBase
 from app.routers.auth import AdminServiceDep
 from fastapi import APIRouter, HTTPException, Response
@@ -38,11 +39,13 @@ async def put_branding(
 
 @router.delete("/pastes/{paste_id}", status_code=204)
 async def DeletePaste(
-    paste_id: int, pasted_service: PastedServiceDep, admin: ProtectedRouteDep
+        paste_id: int, pasted_service: PastedServiceDep, admin: ProtectedRouteDep, cache: CacheDep,
 ):
     pasted = pasted_service.delete_paste_by_id(paste_id)
     if not pasted:
         raise HTTPException(status_code=404, detail="Paste not found.")
+
+    await cache.delete(key=f"paste_code:{pasted.shortcode}")
 
 @router.get("/pastes/restore/{paste_id}", status_code=204)
 async def RestorePaste(
