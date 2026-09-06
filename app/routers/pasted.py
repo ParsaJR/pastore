@@ -7,7 +7,7 @@ from app.service.pastedService import PastedServiceDep
 from fastapi import APIRouter, Query
 
 router = APIRouter(
-    tags=["Pasted: Public routes"],
+    tags=["Pastore: Public routes"],
 )
 
 @router.get("/pastes/all", status_code=200)
@@ -23,13 +23,13 @@ async def get_all_pastes(
     return items
 
 @router.get("/pastes/{pasted_id}", response_model=PastedPublic, status_code=200)
-async def get_pasted_by_id(pasted_id: int, pasted_service: PastedServiceDep):
+async def get_paste_by_id(pasted_id: int, pasted_service: PastedServiceDep):
     pasted_item = pasted_service.get_pasted_by_id(pasted_id)
     return pasted_item
 
 
 @router.get("/pastes", response_model=PastedPublic, status_code=200)
-async def get_pasted_by_shortcode(
+async def get_paste_by_shortcode(
         shortcode: str,
         pasted_service: PastedServiceDep,
         cache: CacheDep,
@@ -60,7 +60,7 @@ async def get_pasted_by_shortcode(
 
 
 @router.post("/pastes", response_model=PastedPublic, status_code=201)
-async def create_pasted(p: PastedCreate, pasted_service: PastedServiceDep):
+async def create_paste(p: PastedCreate, pasted_service: PastedServiceDep):
     pasted_item = pasted_service.create_pasted(p)
     return pasted_item
 

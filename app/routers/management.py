@@ -9,7 +9,7 @@ from app.schemas.management import APICapabilities
 from app.service.pastedService import PastedServiceDep
 
 router = APIRouter(
-    tags=["Pasted: Management routes"],
+    tags=["Pastore: Management routes"],
     prefix="/management",
 )
 
@@ -38,7 +38,7 @@ async def put_branding(
 
 
 @router.delete("/pastes/{paste_id}", status_code=204)
-async def DeletePaste(
+async def delete_paste(
         paste_id: int, pasted_service: PastedServiceDep, admin: ProtectedRouteDep, cache: CacheDep,
 ):
     pasted = pasted_service.delete_paste_by_id(paste_id)
@@ -48,7 +48,7 @@ async def DeletePaste(
     await cache.delete(key=f"paste_code:{pasted.shortcode}")
 
 @router.get("/pastes/restore/{paste_id}", status_code=204)
-async def RestorePaste(
+async def restore_paste(
     paste_id: int, pasted_service: PastedServiceDep, admin: ProtectedRouteDep
 ):
     pasted = pasted_service.restore_paste_by_id(paste_id)
@@ -57,9 +57,10 @@ async def RestorePaste(
 
 
 @router.post("/change-password", status_code=204)
-async def ChangePassword(
+async def change_password(
     admin_service: AdminServiceDep, admin: ProtectedRouteDep, body: AdminPasswordChange
 ):
+    """Changes the super admin's password"""
 
     admin_service.change_password(
         admin.username, body.current_password, body.new_password
