@@ -4,4 +4,3 @@ __pycache__/
 *.pyi
 /doc.md
 /map.md
-docker-compose.yaml
