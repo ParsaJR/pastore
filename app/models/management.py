@@ -28,13 +28,22 @@ class AdminCreate(AdminBase):
             raise ValueError("Passwords do not match!")
         return self
 
+
     @field_validator("plain_password")
-    def must_contain_number_and_char(cls, value: str) -> str:
-        if not re.search(r"[A-Za-z]", value):
-            raise ValueError("Password must contain at least one letter.")
-        if not re.search(r"\d", value):
-            raise ValueError("Password must contain at least one number.")
+    def length_check(cls, value: str) -> str:
+        if len(value) < 6:
+            raise ValueError("Admin password length must be higher then 6.")
+
         return value
+            
+
+    # @field_validator("plain_password")
+    # def must_contain_number_and_char(cls, value: str) -> str:
+    #     if not re.search(r"[A-Za-z]", value):
+    #         raise ValueError("Password must contain at least one letter.")
+    #     if not re.search(r"\d", value):
+    #         raise ValueError("Password must contain at least one number.")
+    #     return value
 
 
 class Admin(AdminBase, table=True):
