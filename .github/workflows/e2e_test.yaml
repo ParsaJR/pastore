@@ -1,0 +1,35 @@
+# It tests that the docker-compose template looks sane, and then
+# runs a minimal playwright testing template on it.
+
+name: Pastore e2e testing action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0
+        with:
+          version: 0.11.28
+
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+        
+      - name: Start the application
+        run: docker compose up -d
+        
+      - name: Ensure playwright-chromium has installed
+        run: uv run playwright install chromium --with-deps
+        
+      - name: Run tests
+        run: uv run pytest e2e --tracing=retain-on-failure
+
+      - name: Shutdown
+        if: always()
+        run: docker compose down -v
