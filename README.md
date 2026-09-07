@@ -126,6 +126,37 @@ After that, your service is ready to be served at port 8080.
 <!-- > -->
 <!-- >  } -->
 
+## Development
+
+Make sure to install the following dependencies:
+
+- [Mise](https://mise.jdx.dev/getting-started.html)
+- [Docker & Docker Compose](https://docs.docker.com/get-started/)
+
+This project uses `uv` and `pnpm` as a package manager toolkit for back-end
+and front-end side, respectively.
+
+Also, `just`, the command runner, defines some common development tasks to help
+you get started.
+
+All three of these should automatically be installed by `mise`.
+
+1. Install the project's dependencies:
+
+```sh
+mise install
+```
+
+2. Use the `justfile` to help you get started:
+
+```sh
+just setup-api
+
+just setup-db
+
+just run-api
+```
+
 ## Preview
 <a name="animated_gifs"></a>
 <img width="1280" height="600" alt="ezgif-8d9e6ab0af591b68" src="https://github.com/user-attachments/assets/72f5c62d-11e5-4863-b7de-5fcc3f01d3be" />
