@@ -26,7 +26,11 @@ jobs:
         
       - name: Ensure playwright-chromium has installed
         run: uv run playwright install chromium --with-deps
-        
+      - name: Debug application
+        run: |
+          docker compose ps
+          docker compose logs
+      
       - name: Run tests
         run: uv run pytest e2e --tracing=retain-on-failure
 
