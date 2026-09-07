@@ -1,6 +1,6 @@
 x-common-env: &common-env
   PASTORE_JWT_SECRET: supersecret
-  PASTORE_INITIAL_ADMIN_PASSWORD: supersecret
+  PASTORE_INITIAL_ADMIN_PASSWORD: Supersecret1234 # Must include number and letter
 
   PASTORE_DATABASE_HOST: db
   PASTORE_DATABASE_NAME: &db_name pastore
