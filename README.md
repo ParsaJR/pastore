@@ -18,14 +18,22 @@ Scroll down the README for some [pretty gifs](#animated_gifs)
 
 #### Docker-compose
 
-Use the [docker-compose.yaml](docker-compose.yaml) file to setup the service.
+Use the [docker-compose.yaml](docker-compose.yaml) file to setup the
+service. Follow the instructions below:
 
-It defines three services:
+1. Run the `prestart.sh` script:
+```sh
+docker compose run --rm api bash prestart.sh
+```
+
+2. Then, run the compose template:
+```sh
+docker compose run
+```
+
+The compose template defines two services:
 
 - A PostgreSQL database container `db` which stores all the persistent data.
-
-- A migration service that runs off the alembic migration script to make the
-  database schema ready to consume for the api.
 
 - Api service which runs the Pastore api and hosts its frontend client.
 
