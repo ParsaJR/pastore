@@ -46,4 +46,6 @@ RUN uv sync --frozen --no-dev
 
 COPY app /pastore/app
 
+COPY prestart.sh /pastore
+
 CMD ["uv", "run", "fastapi", "run", "./app/main.py", "--port", "80"]

@@ -20,6 +20,10 @@ jobs:
 
       - name: Install the project
         run: uv sync --locked --all-extras --dev
+
+
+      - name: Migration
+        run: docker compose run --rm api bash prestart.sh
         
       - name: Start the application
         run: docker compose up -d

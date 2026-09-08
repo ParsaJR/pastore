@@ -42,25 +42,14 @@ services:
       timeout: 3s
       retries: 3
 
-
-  migrate:
-    image: parsajr/pastore
-    command: uv run alembic -c ./app/alembic.ini upgrade head
-    environment:
-        <<: *common-env
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: "no"
-
   api:
-    image: parsajr/pastore
+    image: parsajr/pastore:latest
     environment:
         <<: *common-env
 
     depends_on: 
-      migrate:
-        condition: service_completed_successfully
+      db:
+        condition: service_healthy
     ports:
       - "8080:80"
     restart: unless-stopped
