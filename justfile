@@ -97,7 +97,7 @@ alembic_conf := "./app/alembic.ini"
 
 # Create a new alembic migration, using the autogenerate feature.
 [group('api-migration')]
-alembic-new-migration message:
+new-migration message:
 	@uv run alembic -c {{alembic_conf}} revision --autogenerate -m "{{message}}"
 
 # Propagating all of the migration into the database

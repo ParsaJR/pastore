@@ -84,6 +84,8 @@ just setup-db
 just run-api
 ```
 
+See the complete list of commands using `just --list`.
+
 ## Preview
 <a name="animated_gifs"></a>
 <img width="1280" height="600" alt="ezgif-8d9e6ab0af591b68" src="https://github.com/user-attachments/assets/72f5c62d-11e5-4863-b7de-5fcc3f01d3be" />
