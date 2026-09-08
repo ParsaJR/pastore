@@ -32,7 +32,6 @@ async def login_and_get_token(
     encoded_token = security.create_access_token(
         data={
             "sub": admin.username,
-            "password_change_required": admin.password_reset_required,
         },
         expires_at_delta=access_token_expires_at,
     )

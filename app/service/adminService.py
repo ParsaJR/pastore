@@ -108,7 +108,6 @@ class AdminService:
             hashed_password=password,
             disabled=False,
             email=admin.email,
-            password_reset_required=True,  ## Always
         )
 
         self.db.add(targetAdmin)

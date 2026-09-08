@@ -50,7 +50,6 @@ class Admin(AdminBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     hashed_password: str
     last_logged_in_at: datetime | None = Field(default=None)
-    password_reset_required: bool = Field(default=True)
     disabled: bool = False
 
 
