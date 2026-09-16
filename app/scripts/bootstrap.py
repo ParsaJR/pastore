@@ -39,13 +39,13 @@ def ensure_an_admin_exists() -> bool:
 
 def run():
     log = logs.get_logger()
-    log.info("Running the boostrap tasks...")
+    log.info("Running the bootstrap tasks...")
 
     if ensure_an_admin_exists():
         log.info("Initial admin account has been created.")
 
 
-    log.info("Running the boostrap tasks...Done")
+    log.info("Running the bootstrap tasks...Done")
 
 if __name__ == "__main__":
     run()
