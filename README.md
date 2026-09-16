@@ -21,12 +21,13 @@ Scroll down the README for some [pretty gifs](#animated_gifs)
 Use the [docker-compose.yaml](docker-compose.yaml) file to setup the
 service. Follow the instructions below:
 
-1. Run the `prestart.sh` script:
+1. Run the `prestart.sh` script. It sets up the migration for the database
+schema:
 ```sh
 docker compose run --rm api bash prestart.sh
 ```
 
-2. Then, run the compose template:
+2. Then, run the compose template that:
 ```sh
 docker compose run
 ```
@@ -38,7 +39,8 @@ The compose template defines two services:
 - Api service which runs the Pastore api and hosts its frontend client.
 
 
-After that, your service is ready to be served at port 8080.
+After that, your service is ready to be served at port 8080. You can serve it
+either directly, or by using a reverse proxy like Caddy or Nginx.
 
 <!-- > [!IMPORTANT] -->
 <!-- > As for now, You need to reverse proxy the api service under the location -->
