@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, computed } from 'vue'
 import { codeToHtml } from 'shiki'
-import flourite from 'flourite'
 
 import { useAppStore } from '../stores/appStore'
-import { userWelcomeText } from '@/statics/inventory'
+import { useLanguageDetector, useShikiHighlighter } from '@/composables/language-detect'
 
 const appState = useAppStore()
 
@@ -14,22 +13,14 @@ const highlighted = ref('')
 
 const code = defineModel<string>('code')
 
- function DetectLanguage(code: string): string {
-     const language = flourite(code, { shiki: true, noUnknown: true });
-     console.info(`Detected language: ${language.language}`)
-     return language.language
- }
 
- watch(() => appState.isViewMode, async () => {
-     if (appState.isViewMode && code.value) {
-	 const lang = DetectLanguage(code.value)
-	 highlighted.value = await codeToHtml(code.value, {
-	     lang: lang,
-	     theme: 'github-light'
-	 })
-     }
-     // Execute the watcher's callback immediately once, on the first creation of the component.
- }, {immediate: true})
+watch(() => appState.isViewMode, async () => {
+	if (appState.isViewMode && code.value) {
+		const lang = useLanguageDetector(code.value)
+		highlighted.value = useShikiHighlighter(code.value, lang)
+	}
+	// Execute the watcher's callback immediately once, on the first creation of the component.
+}, { immediate: true })
 
 </script>
 

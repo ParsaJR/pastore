@@ -12,20 +12,32 @@ const highlighter = await createHighlighter({
   langs: [
     "javascript",
     "typescript",
+    "html",
+    "css",
+    "scss",
     "python",
     "go",
     "rust",
-    "json",
+    "java",
+    "c",
+    "cpp",
+    "csharp",
     "bash",
-    "julia",
+    "shellsession",
+    "powershell",
+    "yaml",
+    "toml",
+    "json",
+    "sql",
+    "ruby",
+    "php",
     "kotlin",
-    "html",
-    "css",
-    "markdown"
+    "swift",
+    "markdown",
   ],
 });
 
-export async function useShikiHighlighter(code: string, language: string){
+export function useShikiHighlighter(code: string, language: string) {
   return highlighter.codeToHtml(code, {
     lang: language,
     theme: 'github-light'
