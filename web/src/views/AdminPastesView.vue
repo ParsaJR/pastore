@@ -4,6 +4,13 @@ import type { TableColumn } from '@nuxt/ui'
 import { handleWithToast, useAPI } from '@/composables/api'
 import { type APIAllPastesResponse, type APIError, type PasteSchema } from '@/types/ApiTypes'
 import { useLanguageDetector, useShikiHighlighter } from '@/composables/language-detect'
+import { useConfirmDialog } from '@vueuse/core'
+
+// Using the ConfirmDialogAPI from VueUse. Handy for confirm modals.
+const { isRevealed , reveal , confirm , cancel , onConfirm  } = useConfirmDialog()
+onConfirm(async () => {
+    await HandleHardDelete() 
+})
 
 const toast = useToast()
 
@@ -163,6 +170,20 @@ watch(
     },
     { deep: true, immediate: true }
 )
+
+
+async function HandleHardDelete() {
+    try {
+        await handleWithToast(() => useAPI().hardDeletePaste())
+        toast.add({
+            description: `Expired Pastes has been scheduled for deletion.`
+        })
+    }
+    catch (e) {
+         throw e
+    }
+}
+
 const globalFilter = ref('')
 
 </script>
@@ -171,23 +192,37 @@ const globalFilter = ref('')
     <div class="w-full space-y-4 pb-4">
         <div class="flex flex-row px-4 py-3.5 border-b justify-between border-accented">
             <UInput v-model="globalFilter" class="max-w-sm" placeholder="Filter..." />
-            <UButton @click="FetchAndPopulate()" class="max-w-sm" variant="subtle" icon="lucide:refresh-cw"></UButton>
+            <div class="flex gap-2">
+                <UButton @click="FetchAndPopulate()" class="max-w-sm" variant="subtle" icon="lucide:refresh-cw">
+                </UButton>
+                <UButton @click="reveal()" class="max-w-sm" variant="subtle" icon="lucide:trash-2"></UButton>
+            </div>
         </div>
 
         <UTable v-model:global-filter="globalFilter" v-model:pagination="pagination"
             :pagination-options="{ manualPagination: true, rowCount: data.total_items, pageCount: data.total_pages }"
             :data="data.items" :columns="columns" class="flex-1" />
 
-        <UModal fullscreen title="Content" v-model:open="content_modal_show">
-            <template #body>
-                <div class="m-4" v-html="content_modal">
-                </div>
-            </template>
-        </UModal>
         <div class="flex justify-end border-t border-default pt-4 px-4">
             <UPagination :page="pagination.pageIndex + 1" :items-per-page="pagination.pageSize"
                 :total="data.total_items" @update:page="(page: number) => pagination.pageIndex = page - 1" />
         </div>
     </div>
 
+    <UModal fullscreen title="Content" v-model:open="content_modal_show">
+        <template #body>
+            <div class="m-4" v-html="content_modal">
+            </div>
+        </template>
+    </UModal>
+
+    <UModal title="You sure?" v-model:open="isRevealed"
+    :close="{ onClick: () => cancel() }">
+        <template #footer>
+            <div class="flex gap-2">
+                <UButton color="neutral" label="Forget it." @click="cancel()" />
+                <UButton label="Yes, do it." @click="confirm()" />
+            </div>
+        </template>
+    </UModal>
 </template>

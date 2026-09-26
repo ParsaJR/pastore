@@ -1,5 +1,5 @@
 import { createApiClient } from "@/apiClient/client"
-import type { APIBranding, APICapabilities, APIPastedResponse, APIAllPastesResponse, APIToken, PostPastedPayload, APIError } from "@/types/ApiTypes"
+import type { APIBranding, APICapabilities, APIPastedResponse, APIAllPastesResponse, APIToken, PostPastedPayload, APIError, APIHardDeleteResponse } from "@/types/ApiTypes"
 
 type APICallback<T> = (...args: any[]) => Promise<T>
 
@@ -42,6 +42,17 @@ export function useAPI() {
 		const url = `/management/pastes/${id}`
 
 		api_client.delete(url, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		})
+	}
+
+	async function hardDeletePaste(): Promise<void> {
+		const token = localStorage.getItem("token")
+		const url = `/management/pastes/delete-expired`
+
+		api_client.delete<APIHardDeleteResponse>(url, {
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
@@ -118,5 +129,5 @@ export function useAPI() {
 	}
 
 
-	return { getToken, postPasted, getPasted, getAllPastes, softDeletePaste, restorePaste, getApiCapabilities, getBranding, putBranding }
+	return { getToken, postPasted, getPasted, getAllPastes, softDeletePaste, hardDeletePaste, restorePaste, getApiCapabilities, getBranding, putBranding }
 }

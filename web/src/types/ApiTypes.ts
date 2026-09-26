@@ -1,5 +1,5 @@
 export type APIPastedResponse = {
-  // An object that has been returned in the response of successful post paste request.
+// An object that has been returned in the response of successful post paste request.
   shortcode: string,
   content: string,
 }

@@ -1,26 +1,27 @@
 from datetime import datetime, timedelta, timezone
+
 from sqlmodel import select
 
 from app.db import get_session
 from app.models.pasted import Pasted
 
 
-deletedEntities = 0
+def delete_expired_pastes(days: int = 20) -> int:
+    """Hard deletes the expired pastes"""
+    with next(get_session()) as session:
+        cutoff = datetime.now(timezone.utc) - timedelta(days=days)
 
-session = get_session()
+        statement = select(Pasted).where(Pasted.created_at < cutoff)
+        candidates = session.exec(statement).all()
 
-session = next(session)
+        for paste in candidates:
+            session.delete(paste)
 
-fifteen_days_ago = datetime.now(tz=timezone.utc) - timedelta(minutes=10)
-statement = select(Pasted).where(Pasted.created_at < fifteen_days_ago)
-candidates = session.exec(statement).all()
+        session.commit()
+
+        return len(candidates)
 
 
-for candidate in candidates:
-    candidate.is_deleted = True
-    deletedEntities += 1
-
-session.bulk_save_objects(candidates)
-session.commit()
-
-print(f"Done. Soft Deleted {deletedEntities} rows.")
+if __name__ == "__main__":
+    deleted = delete_expired_pastes()
+    print(f"Done. Deleted {deleted} rows.")

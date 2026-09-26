@@ -2,10 +2,11 @@ from app.dependencies.admin import ProtectedRouteDep
 from app.dependencies.database import CacheDep
 from app.models.management import AdminPasswordChange, BrandingBase
 from app.routers.auth import AdminServiceDep
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Response
 from app.core import security
 
 from app.schemas.management import APICapabilities
+from app.scripts.cleanup import delete_expired_pastes
 from app.service.pastedService import PastedServiceDep
 
 router = APIRouter(
@@ -43,9 +44,14 @@ async def put_branding(
 
     await cache.delete("branding")
 
+@router.delete("/pastes/delete-expired",status_code=202)
+async def cleanup_pastes(
+        admin: ProtectedRouteDep,
+        background_tasks: BackgroundTasks
+):
+    """Hard deletes all the expired pastes."""
 
-
-
+    background_tasks.add_task(delete_expired_pastes)
 
 @router.delete("/pastes/{paste_id}", status_code=204)
 async def delete_paste(
@@ -56,6 +62,7 @@ async def delete_paste(
         raise HTTPException(status_code=404, detail="Paste not found.")
 
     await cache.delete(key=f"paste_code:{pasted.shortcode}")
+
 
 @router.get("/pastes/restore/{paste_id}", status_code=204)
 async def restore_paste(

@@ -31,7 +31,7 @@ def test_engine_connectivity():
         logger.info('\n\n ❗️ Connection to database failed!')
         raise e    
 
-
+# get_session is subject to override in tests.
 def get_session():
     """Yields a single session to the underlying database connection"""
     with Session(engine) as session:
