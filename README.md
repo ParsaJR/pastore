@@ -27,16 +27,16 @@ schema:
 docker compose run --rm api bash prestart.sh
 ```
 
-2. Then, run the compose template that:
+2. Then, run the compose template in detached mode:
 ```sh
-docker compose run
+docker compose run -d
 ```
 
 The compose template defines two services:
 
 - A PostgreSQL database container `db` which stores all the persistent data.
 
-- Api service which runs the Pastore api and hosts its frontend client.
+- Api service which runs the Pastore api and hosts its front-end client.
 
 
 After that, your service is ready to be served at port 8080. You can serve it
