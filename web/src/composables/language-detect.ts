@@ -1,5 +1,5 @@
 import flourite from "flourite";
-import { codeToHtml, createHighlighter } from "shiki";
+import { createHighlighter } from "shiki";
 
 export function useLanguageDetector(code: string){
     const language = flourite(code, { shiki: true, noUnknown: true });

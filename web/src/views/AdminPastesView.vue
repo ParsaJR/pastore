@@ -2,12 +2,12 @@
 import { h, ref, resolveComponent, watch } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
 import { handleWithToast, useAPI } from '@/composables/api'
-import { type APIAllPastesResponse, type APIError, type PasteSchema } from '@/types/ApiTypes'
+import { type APIAllPastesResponse, type PasteSchema } from '@/types/ApiTypes'
 import { useLanguageDetector, useShikiHighlighter } from '@/composables/language-detect'
 import { useConfirmDialog } from '@vueuse/core'
 
 // Using the ConfirmDialogAPI from VueUse. Handy for confirm modals.
-const { isRevealed , reveal , confirm , cancel , onConfirm  } = useConfirmDialog()
+const { isRevealed, reveal , confirm , cancel , onConfirm  } = useConfirmDialog()
 onConfirm(async () => {
     await HandleHardDelete() 
 })
@@ -28,22 +28,15 @@ const data = ref<APIAllPastesResponse>({
     page_size: 10,
 })
 
-watch(() => content.value, async () => {
+watch(() => content.value, () => {
     const lang = useLanguageDetector(content.value)
-    content_modal.value = await useShikiHighlighter(content.value, lang)
+    content_modal.value = useShikiHighlighter(content.value, lang)
 }
     // Execute the watcher's callback immediately once, on the first creation of the component.
     , { immediate: true })
 
 
 const content_modal_show = ref(false)
-
-type Payment = {
-    id: string
-    date: string
-    email: string
-    amount: number
-}
 
 const columns: TableColumn<PasteSchema>[] = [
     {
