@@ -186,9 +186,14 @@ const globalFilter = ref('')
         <div class="flex flex-row px-4 py-3.5 border-b justify-between border-accented">
             <UInput v-model="globalFilter" class="max-w-sm" placeholder="Filter..." />
             <div class="flex gap-2">
-                <UButton @click="FetchAndPopulate()" class="max-w-sm" variant="subtle" icon="lucide:refresh-cw">
-                </UButton>
-                <UButton @click="reveal()" class="max-w-sm" variant="subtle" icon="lucide:trash-2"></UButton>
+                <UTooltip text="Refresh" :delay-duration="0">
+                    <UButton @click="FetchAndPopulate()" class="max-w-sm" variant="subtle" icon="lucide:refresh-cw">
+                    </UButton>
+                </UTooltip>
+                <UTooltip text="Delete the expired pastes" :delay-duration="0">
+                    <UButton @click="reveal()" class="max-w-sm" color="error" variant="subtle" icon="lucide:trash-2">
+                    </UButton>
+                </UTooltip>
             </div>
         </div>
 
@@ -209,12 +214,14 @@ const globalFilter = ref('')
         </template>
     </UModal>
 
-    <UModal title="You sure?" v-model:open="isRevealed"
-    :close="{ onClick: () => cancel() }">
+    <UModal title="Confirm" v-model:open="isRevealed" :close="{ onClick: () => cancel() }">
+        <template #body>
+            You're going to hard delete all the expired pastes. Procced?
+        </template>
         <template #footer>
             <div class="flex gap-2">
-                <UButton color="neutral" label="Forget it." @click="cancel()" />
-                <UButton label="Yes, do it." @click="confirm()" />
+                <UButton label="Yes" color="neutral" @click="confirm()" />
+                <UButton color="success" label="No" @click="cancel()" />
             </div>
         </template>
     </UModal>
