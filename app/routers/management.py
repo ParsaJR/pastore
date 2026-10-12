@@ -33,6 +33,11 @@ async def branding(admin_service: AdminServiceDep, cache: CacheDep):
     return branding
 
 
+@router.get("/am-i-admin", status_code=200)
+async def am_i_admin(admin: ProtectedRouteDep):
+    pass
+
+
 @router.put("/branding", status_code=201)
 async def put_branding(
         admin_service: AdminServiceDep,

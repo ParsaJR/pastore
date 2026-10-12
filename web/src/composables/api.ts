@@ -52,7 +52,7 @@ export function useAPI() {
 		const token = localStorage.getItem("token")
 		const url = `/management/pastes/delete-expired`
 
-		api_client.delete<APIHardDeleteResponse>(url, {
+		await api_client.delete<void>(url, {
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
@@ -127,7 +127,6 @@ export function useAPI() {
 
 		return response
 	}
-
 
 	return { getToken, postPasted, getPasted, getAllPastes, softDeletePaste, hardDeletePaste, restorePaste, getApiCapabilities, getBranding, putBranding }
 }

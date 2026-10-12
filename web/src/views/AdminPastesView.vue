@@ -166,15 +166,11 @@ watch(
 
 
 async function HandleHardDelete() {
-    try {
-        await handleWithToast(() => useAPI().hardDeletePaste())
+    await handleWithToast(() => useAPI().hardDeletePaste(), () => {
         toast.add({
             description: `Expired Pastes has been scheduled for deletion.`
         })
-    }
-    catch (e) {
-         throw e
-    }
+    })
 }
 
 const globalFilter = ref('')

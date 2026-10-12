@@ -56,13 +56,15 @@ const router = createRouter({
   ],
 })
 
-
-router.beforeEach((to) => {
+// Check to see if the token looks, and is valid. Only for protectedRoutes.
+router.beforeEach(async (to) => {
   if (!to.meta.requiresAuth) return true
+
+  let login_route = { name: "login-view", query: { redirect: to.fullPath } }
 
   const token = localStorage.getItem("token")
   if (!token) {
-    return { path: "/login", query: { redirect: to.fullPath } }
+    return login_route
   }
 
   let decoded
@@ -70,12 +72,12 @@ router.beforeEach((to) => {
     decoded = jwtDecode(token)
   } catch (err) {
     console.error(err)
-    return { path: "/login", query: { redirect: to.fullPath } }
+    return login_route
   }
 
   const exp = decoded?.exp
   if (!exp) {
-    return { path: "/login", query: { redirect: to.fullPath } }
+    return login_route
   }
 
   const now = Math.floor(Date.now() / 1000)
@@ -83,7 +85,19 @@ router.beforeEach((to) => {
   // Means the token has been expired.
   if (now >= exp) {
     localStorage.removeItem("token")
-    return { path: "/login", query: { redirect: to.fullPath } }
+    return login_route
+  }
+
+
+  const response = await fetch("/api/management/am-i-admin",{
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+
+  if (!response.ok) {
+    return login_route
   }
 
   return true
