@@ -3,8 +3,11 @@ import { ref } from 'vue'
 import type { NavigationMenuItem, SidebarProps } from '@nuxt/ui'
 import { useMediaQuery } from '@vueuse/core';
 import { VueSpinner } from 'vue3-spinners'
+import { useRouter } from 'vue-router';
 
 const open = ref(true)
+
+const router = useRouter()
 
 // Ignore the props for the example
 defineProps<Pick<SidebarProps, 'variant' | 'side'>>()
@@ -29,15 +32,28 @@ const items: NavigationMenuItem[] = [
         icon: 'i-lucide-file-code',
         to: '/admin/pastes',
         exact: true
-    }
-].map(item => ({
-    ...item,
-    onSelect: () => {
-        if (isMobile.value) {
-            open.value = false
+    },
+    {
+        label: 'Logout',
+        icon: 'lucide:log-out', 
+        class: 'text-error',
+        onSelect: () => {
+            localStorage.removeItem("token")
+            router.push('/login')
+        }
+    },
+].map(item => {
+    const originalOnSelect = item.onSelect
+    return {
+        ...item,
+        onSelect: () => {
+            originalOnSelect?.()
+            if (isMobile.value) {
+                open.value = false
+            }
         }
     }
-}))
+})
 </script>
 
 <template>
