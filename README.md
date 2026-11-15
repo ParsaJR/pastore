@@ -65,7 +65,7 @@ file.
 |----------------------------------|-----------|--------------------------------------------------------|
 | `PASTORE_APP_NAME`               | `Pastore` | Application name. It will be displayed on your webapp. |
 | `PASTORE_DEVELOPMENT`            | `false`   | Enable development mode.                               |
-| `PASTORE_INITIAL_ADMIN_PASSWORD` | `None`    | Initial administrator password.                        |
+| `PASTORE_INITIAL_ADMIN_PASSWORD` | `None`    | Initial administrator password. *Must include number and letter*                        |
 	
 ### Database
 
