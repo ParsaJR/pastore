@@ -33,6 +33,8 @@ FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
 
 FROM python:3.14-slim
 
+ENV UV_NO_DEV=1
+
 COPY --from=uv /uv /uvx /bin/
 
 WORKDIR /pastore
