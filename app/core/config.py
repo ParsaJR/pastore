@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     app_name: str = "Pastore"
     development: bool = False # Is it in dev environment?
 
-    run_startup_tasks: bool = True 
+    #run_startup_tasks: bool = True 
     initial_admin_password: str | None = None
 
 
@@ -72,7 +72,6 @@ class Settings(BaseSettings):
     ## Logs
     LOG_ENABLED: bool = True
     LOG_STRUCTURED: bool = False
-    LOG_LOKI_URL: str = ""
     LOG_LEVEL: LogLevels = LogLevels.Debug
 
 
