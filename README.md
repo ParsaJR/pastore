@@ -6,7 +6,7 @@ Scroll down the README for some [pretty gifs](#animated_gifs)
 
 ## Table of Contents
 
-- [Features](#features)
+- Features
   - [Web Client](#web-client)
   - [Syntax Highlighting](#syntax-highlighting)
   - [Administration](#administration)
@@ -15,7 +15,7 @@ Scroll down the README for some [pretty gifs](#animated_gifs)
 - [Deployment](#deployment)
 - [Configuration](#configuration)
 
-# TLDR
+# Too long, didn't read
 
 - A good looking web client, powered by [Vue.JS](https://vuejs.org) & [Nuxt UI](https://ui.nuxt.com/)
 - Beautiful syntax highlighting, powered by [Shiki](https://shiki.style/)
@@ -94,7 +94,7 @@ Redis is an optional dependency. If caching is not required, you can leave it di
 ### Prometheus Metrics
 
 Pastore can expose application metrics for monitoring through Prometheus. The
-authentication of the metrics endpoint is based on the simple [HTTP Basic Auth](https://en.wikipedia.org/wiki/Basic_access_authentication)
+authentication of the metrics endpoint is based on the simple [HTTP Basic Auth](https://en.wikipedia.org/wiki/Basic_access_authentication) method.
 
 | Variable                   | Default | Description                             |
 |----------------------------|---------|-----------------------------------------|
