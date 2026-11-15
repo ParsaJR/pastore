@@ -78,6 +78,12 @@ def create_app():
 
     logger = logs.get_logger()
 
+
+
+    @app.get("/up", status_code=200)
+    def up():
+        return "Hello"
+
     ## Middlewares
     @app.middleware("http")
     async def log_process_time(request: Request, call_next):
