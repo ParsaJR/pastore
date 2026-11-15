@@ -7,22 +7,6 @@ x-common-env: &common-env
   PASTORE_DATABASE_PASSWORD: &db_password changeme
   PASTORE_DATABASE_USERNAME: &db_user pastore
 
-  # Optional
-  PASTORE_LOG_STRUCTURED: False
-  PASTORE_LOG_LEVEL: info
-
-  # Optional
-  PASTORE_Metrics_Enabled: False
-  PASTORE_Metrics_Username: "pastore" 
-  PASTORE_Metrics_Password: "secret"
-  
-  
-  # Optional
-  PASTORE_REDIS_ENABLED: False
-  PASTORE_REDIS_HOST: 127.0.0.1
-  PASTORE_REDIS_PORT: 6379
-  PASTORE_REDIS_PASSWORD: secret
-
 
 services:
   db:
