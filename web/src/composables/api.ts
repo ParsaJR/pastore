@@ -1,5 +1,6 @@
 import { createApiClient } from "@/apiClient/client"
-import type { APIBranding, APICapabilities, APIPastedResponse, APIAllPastesResponse, APIToken, PostPastedPayload, APIError, APIHardDeleteResponse } from "@/types/ApiTypes"
+import type { APIBranding, APICapabilities, APIPastedResponse,
+APIAllPastesResponse, APIToken, PostPastedPayload, APIError } from "@/types/ApiTypes"
 
 type APICallback<T> = (...args: any[]) => Promise<T>
 
