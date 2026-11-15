@@ -91,9 +91,9 @@ Redis is an optional dependency. If caching is not required, you can leave it di
 | `PASTORE_REDIS_PORT`     | `6379`      | Redis server port.                   |
 | `PASTORE_REDIS_PASSWORD` | Empty       | Redis authentication password.       |
 
-### Prometheus Metrics
+### Metrics
 
-Pastore can expose application metrics for monitoring through Prometheus. The
+Pastore can expose application metrics through a Prometheus-compatible metrics endpoint. The
 authentication of the metrics endpoint is based on the simple [HTTP Basic Auth](https://en.wikipedia.org/wiki/Basic_access_authentication) method.
 
 | Variable                   | Default | Description                             |
