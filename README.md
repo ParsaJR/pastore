@@ -27,8 +27,7 @@ Scroll down the README for some [pretty gifs](#animated_gifs)
 
 ## Web-client
 
-Pastore provides a simple web interface, which is served by it's
-backend. Pastore's Web-app stands on the shoulder of [Vue.JS](https://vuejs.org)
+Pastore provides a simple, client-side web interface, which is served by the FastAPI app. Pastore's Web-app stands on the shoulder of [Vue.JS](https://vuejs.org)
 & [Nuxt UI](https://ui.nuxt.com/)
 
 ## Syntax highlighting
@@ -36,14 +35,13 @@ backend. Pastore's Web-app stands on the shoulder of [Vue.JS](https://vuejs.org)
 Pastore's web client provides a simple yet beautiful syntax highlighting,
 powered by [Shiki](https://shiki.style/) and [Flourite](https://github.com/teknologi-umum/flourite)
 
-
 ## Administration
 
 Just navigate to `/admin`, and then, things are easy to discover.
 
 ## Caching
 
-The application is able to use redis as its caching solution, if you provide the
+The application is able to use Redis as its caching solution, if you provide the
 needed [configuration](#configuration).
 
 ## Metrics
