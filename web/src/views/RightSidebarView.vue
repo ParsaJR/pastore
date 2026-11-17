@@ -97,7 +97,7 @@ const selectOptions = computed(() =>
 		    </span>
                 </p>
                 <div class="sidebar-footer flex flex-row gap-5 ">
-                    <a href="https://github.com/ParsaJR/pasted" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
+                    <a href="https://github.com/ParsaJR/pastore" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
                         <Github />
                     </a>
                     <a :href="`mailto:${appStore.serviceSupportEmail}`" class="p-2 rounded-3xl bg-btn-primary hover:brightness-90">
